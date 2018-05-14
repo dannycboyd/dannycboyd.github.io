@@ -1,11 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
-		<title>Danny Boyd</title>
+		<meta charset="utf-8">
+		<title>Counties in California</title>
+        <script src="//cdn.jsdelivr.net/bluebird/3.5.0/bluebird.min.js"></script>       <script type= "text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
+		<style type="text/css">
+            
+            .california path {
+                fill: rgba(255, 183, 50, .5)
+            }
+            
+            .province.unknown {
+                fill: rgba(155, 155, 155);
+            }
+            
+            .province:hover {
+                fill: rgb(127, 206, 255)
+            }
+            
+            .label {
+                text-anchor: middle;
+            }
+		</style>
 	</head>
 	<body>
-		<p>
-			This is a simple test website for hosting on github.
-		</p>
+		<script type="text/javascript" src="burundi.js"></script>
+        <div>
+        <p>Geodata comes from GADM.org. The census numbers were provided by <a href="http://www.geonames.org/about.html">geonames.org</a>. Land area numbers come from <a href="http://www.statoids.com/ubi.html">statoids.com</a></p>
+            <p>Worth noting, the burundi geodata from GADM contains some issues; the borders are given without regard for land area, some of the provinces include water features which are not reflected in the borders here.</p>
+        </div>
 	</body>
 </html>
