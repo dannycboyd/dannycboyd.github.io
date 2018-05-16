@@ -71,7 +71,7 @@ var info = d3.select('body').append('div')
     .attr('class', 'info')
     .html('')
     .style('left', 500 + 'px') // Float it at the x/y of the event
-    .style('top', 650 + 'px');
+    .style('top', 700 + 'px');
 
 function set_info(row) {
     var title = row['Admin 2'];
@@ -81,7 +81,7 @@ function set_info(row) {
     var individual = row['Ind'];
     info.html('<h1>' + title + ' Commune</h1>'
               + '<h2>' + subtitle + ' Province</h2>'
-              + '<h3>As of ' + date + '</h3>'
+              + '<h3>Surveyed ' + date + '</h3>'
               + `${individual} total displaced individuals present, `
               + `${household} total displaced households.`);
 }
