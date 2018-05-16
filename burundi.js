@@ -42,7 +42,9 @@ var L2$ = json ('Burundi_Admin_2_Communes.json')
 
 var data$ = csv('dtm-burundi-baseline-assessment-round-25.csv')
 
-function draw_province(name, features) {    
+function draw_province(name, features) {
+    console.log(name, features);
+    
     const province = province_g.append('g')
         .attr('class', name);
         
@@ -51,11 +53,13 @@ function draw_province(name, features) {
         .enter()
         .append('path')
         .attr('class', 'commune')
-        .attr('id', d => d.properties.Communes)
-        .attr('d', path)
+        .attr('id', d => d.geo.properties.Communes)
+        .attr('id', d => d.geo.properties.Communes)
+        .attr('d', d => path(d.geo))
         .style('stroke', province_color(name))
-        .on('mouseover', _ => {
+        .on('mouseover', d => {
             d3.select(d3.event.target).style('fill', () => province_color(name));
+            set_info(d.data);
         })
         .on('mouseout', _ => {
             d3.select(d3.event.target).style('fill', '');
@@ -68,12 +72,20 @@ var info = d3.select('body').append('div')
     .style('left', 500 + 'px') // Float it at the x/y of the event
     .style('top', 650 + 'px');
 
-function set_info(title, html) {
-    let stuff = html.split('.');
-    info.html('<h1>' + title + '</h1>' + '<p>' + stuff.join('</p>\n<p>') + '</p>');
+function set_info(row) {
+    var title = row['Admin 2'];
+    var subtitle = row['Admin 1'];
+    var date = row['Snapshot Date (MMM-yyyy)'];
+    var household = row['HH'];
+    var individual = row['Ind'];
+    info.html('<h1>' + title + '</h1>'
+              + '<h2>' + subtitle + '</h2>'
+              + '<h3>' + date + '</h3>'
+              + '<p>Total number of displaced individuals: ' + individual + '</p>'
+              + '<p>Total number of displaced households: ' + household + '</p>');
 }
 
-set_info('Large Data', 'Hi there. this is some data')
+set_info('Large Data', ['Hi there', 'this is some data'])
 
 Promise.all([L2$, data$]) // Flatten promises, read data
     .then(([L2, data]) => {
@@ -86,14 +98,18 @@ Promise.all([L2$, data$]) // Flatten promises, read data
         p_name = feature.properties['Provinces']
         c_name = feature.properties['Communes']
         
-//        console.log(p_name, c_name)
+        idp = data.find(row => {
+            return row['Admin 2'] === c_name;
+        })
+        console.log(idp);
+        
         if (!provinces[p_name]) {
             provinces[p_name] = {}
             provinces[p_name]['names'] = []
             names.push(p_name);
         }
         provinces[p_name]['names'].push(c_name);
-        provinces[p_name][c_name] = feature;
+        provinces[p_name][c_name] = {geo: feature, data: idp};
 //        console.log(provinces)
 //        if (provinces[name]) { // keep track of all our data, separated nicely
 //            provinces[name].push(feature);

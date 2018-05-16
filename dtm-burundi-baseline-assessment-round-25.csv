@@ -1,4 +1,4 @@
-"Snapshot Date (MMM-yyyy)",Survey Date (dd-MMM-yyyy),Admin 0,Admin 0 pcode,Admin 1,Admin 1 pcode,Admin 2,Admin 2 pcode,Admin 3,Admin 3 pcode,Admin 4,Admin 4 pcode,Admin 5,Admin 5 pcode,Lowest Admin Level,No. of IDPs HH in collective settings,No. of IDPs Ind. in collective settings,"No. of IDPs HH in individual settings",No. of IDPs Ind. Individual settings,Total No. of IDPs HH,Total No. of IDPs Ind.,Main displacement start date (MMM-yyyy),2nd Main displacement start date (MMM-yyyy),Total No. of Returnees HH.,Total No. of Returnees Ind.,Total No. Migrant households,Total No. Migrant individuals,Country of Origin of IDP,Admin 1 Area of Origin of IDP,Confidentiality (Yes or No),"Type of Displacement (Conflict, Natural Disaster, Insecurity, Political reasons, Economic reasons, Disease, Other)",Conflict (Yes or No),Insecurity (Yes or No),Natural Disaster (Yes or No),Political reasons (Yes or No),Economic reasons (Yes or No)
+Snapshot Date (MMM-yyyy),Survey Date (dd-MMM-yyyy),Admin 0,Admin 0 pcode,Admin 1,Admin 1 pcode,Admin 2,Admin 2 pcode,Admin 3,Admin 3 pcode,Admin 4,Admin 4 pcode,Admin 5,Admin 5 pcode,Lowest Admin Level,No. of IDPs HH in collective settings,No. of IDPs Ind. in collective settings,No. of IDPs HH in individual settings,No. of IDPs Ind. Individual settings,HH,Ind,Main displacement start date (MMM-yyyy),2nd Main displacement start date (MMM-yyyy),Total No. of Returnees HH.,Total No. of Returnees Ind.,Total No. Migrant households,Total No. Migrant individuals,Country of Origin of IDP,Admin 1 Area of Origin of IDP,Confidentiality (Yes or No),"Type of Displacement (Conflict, Natural Disaster, Insecurity, Political reasons, Economic reasons, Disease, Other)",Conflict (Yes or No),Insecurity (Yes or No),Natural Disaster (Yes or No),Political reasons (Yes or No),Economic reasons (Yes or No)
 Jan-2018,2018-01-05,Burundi,BDI,Bubanza,BDI001,Bubanza,BDI001002,,,,,,,Admin2,,,,,1729,8610,,,,,,,,,No,"Natural disaster,political reasons",No,No,Yes,Yes,No
 Jan-2018,2018-01-03,Burundi,BDI,Bubanza,BDI001,Gihanga,BDI001005,,,,,,,Admin2,,,,,650,3250,,,,,,,,,No,"Natural disaster,political reasons",No,No,Yes,Yes,No
 Jan-2018,2018-01-05,Burundi,BDI,Bubanza,BDI001,Mpanda,BDI001004,,,,,,,Admin2,,,,,628,3247,,,,,,,,,No,"Natural disaster,political reasons",No,No,Yes,Yes,No
@@ -7,7 +7,7 @@ Jan-2018,2018-01-03,Burundi,BDI,Bubanza,BDI001,Rugazi,BDI001001,,,,,,,Admin2,,,,
 Jan-2018,2018-01-14,Burundi,BDI,Bujumbura Marie,BDI017,Muha,BDI017014,,,,,,,Admin2,,,,,696,3455,,,,,,,,,No,"Natural disaster,political reasons",No,No,Yes,Yes,No
 Jan-2018,2018-01-14,Burundi,BDI,Bujumbura Marie,BDI017,Mukaza,BDI017015,,,,,,,Admin2,,,,,1766,7867,,,,,,,,,No,"Natural disaster,political reasons",No,No,Yes,Yes,No
 Jan-2018,2018-01-14,Burundi,BDI,Bujumbura Marie,BDI017,Ntahangwa,BDI017016,,,,,,,Admin2,,,,,1955,9558,,,,,,,,,No,"Natural disaster,political reasons",No,No,Yes,Yes,No
-Jan-2018,2018-01-03,Burundi,BDI,Bujumbura Rural,BDI002,Isare,BDI002006,,,,,,,Admin2,,,,,189,872,,,,,,,,,No,"Natural disaster,political reasons",No,No,Yes,Yes,No
+Jan-2018,2018-01-03,Burundi,BDI,Bujumbura Rural,BDI002,Isale,BDI002006,,,,,,,Admin2,,,,,189,872,,,,,,,,,No,"Natural disaster,political reasons",No,No,Yes,Yes,No
 Jan-2018,2018-01-05,Burundi,BDI,Bujumbura Rural,BDI002,Kabezi,BDI002002,,,,,,,Admin2,,,,,299,1302,,,,,,,,,No,"Natural disaster,political reasons",No,No,Yes,Yes,No
 Jan-2018,2018-01-06,Burundi,BDI,Bujumbura Rural,BDI002,Kanyosha,BDI002012,,,,,,,Admin2,,,,,870,4626,,,,,,,,,No,"Natural disaster,political reasons",No,No,Yes,Yes,No
 Jan-2018,2018-01-05,Burundi,BDI,Bujumbura Rural,BDI002,Mubimbi,BDI002004,,,,,,,Admin2,,,,,167,810,,,,,,,,,No,"Natural disaster,political reasons",No,No,Yes,Yes,No
@@ -42,7 +42,7 @@ Jan-2018,2018-01-04,Burundi,BDI,Gitega,BDI006,Gitega,BDI006009,,,,,,,Admin2,,,,,
 Jan-2018,2018-01-04,Burundi,BDI,Gitega,BDI006,Itaba,BDI006004,,,,,,,Admin2,,,,,63,258,,,,,,,,,No,"Natural disaster,political reasons",No,No,Yes,Yes,No
 Jan-2018,2018-01-03,Burundi,BDI,Gitega,BDI006,Makebuko,BDI006006,,,,,,,Admin2,,,,,1023,5115,,,,,,,,,No,"Natural disaster,political reasons",No,No,Yes,Yes,No
 Jan-2018,2018-01-04,Burundi,BDI,Gitega,BDI006,Mutaho,BDI006010,,,,,,,Admin2,,,,,301,1309,,,,,,,,,No,"Natural disaster,political reasons",No,No,Yes,Yes,No
-Jan-2018,2018-01-02,Burundi,BDI,Gitega,BDI006,Nyarusange,BDI006002,,,,,,,Admin2,,,,,27,85,,,,,,,,,No,"Natural disaster,political reasons",No,No,Yes,Yes,No
+Jan-2018,2018-01-02,Burundi,BDI,Gitega,BDI006,Nyanrusange,BDI006002,,,,,,,Admin2,,,,,27,85,,,,,,,,,No,"Natural disaster,political reasons",No,No,Yes,Yes,No
 Jan-2018,2018-01-04,Burundi,BDI,Gitega,BDI006,Ryansoro,BDI006011,,,,,,,Admin2,,,,,380,1175,,,,,,,,,No,"Natural disaster,political reasons",No,No,Yes,Yes,No
 Jan-2018,2018-01-06,Burundi,BDI,Karuzi,BDI007,Bugenyuzi,BDI007001,,,,,,,Admin2,,,,,94,347,,,,,,,,,No,"Natural disaster,political reasons",No,No,Yes,No,No
 Jan-2018,2018-01-09,Burundi,BDI,Karuzi,BDI007,Buhiga,BDI007002,,,,,,,Admin2,,,,,357,1192,,,,,,,,,No,"Natural disaster,political reasons",No,No,Yes,Yes,No
@@ -71,7 +71,7 @@ Jan-2018,2018-01-11,Burundi,BDI,Makamba,BDI010,Kayogoro,BDI010001,,,,,,,Admin2,,
 Jan-2018,2018-01-05,Burundi,BDI,Makamba,BDI010,Kibago,BDI010002,,,,,,,Admin2,,,,,203,1015,,,,,,,,,No,"Natural disaster,political reasons",No,No,Yes,Yes,No
 Jan-2018,2018-01-04,Burundi,BDI,Makamba,BDI010,Mabanda,BDI010003,,,,,,,Admin2,,,,,354,1770,,,,,,,,,No,"Natural disaster,political reasons",No,No,Yes,Yes,No
 Jan-2018,2018-01-05,Burundi,BDI,Makamba,BDI010,Makamba,BDI010004,,,,,,,Admin2,,,,,156,780,,,,,,,,,No,"Natural disaster,political reasons",No,No,Yes,Yes,No
-Jan-2018,2018-01-05,Burundi,BDI,Makamba,BDI010,Nyanza lac,BDI010005,,,,,,,Admin2,,,,,982,4910,,,,,,,,,No,"Natural disaster,political reasons",No,No,Yes,Yes,No
+Jan-2018,2018-01-05,Burundi,BDI,Makamba,BDI010,Nyanza-Lac,BDI010005,,,,,,,Admin2,,,,,982,4910,,,,,,,,,No,"Natural disaster,political reasons",No,No,Yes,Yes,No
 Jan-2018,2018-01-03,Burundi,BDI,Makamba,BDI010,Vugizo,BDI010006,,,,,,,Admin2,,,,,186,930,,,,,,,,,No,"Natural disaster,political reasons",No,No,Yes,Yes,No
 Jan-2018,2018-01-15,Burundi,BDI,Muramvya,BDI011,Bukeye,BDI011001,,,,,,,Admin2,,,,,121,589,,,,,,,,,No,"Natural disaster,political reasons",No,No,Yes,Yes,No
 Jan-2018,2018-01-15,Burundi,BDI,Muramvya,BDI011,Kiganda,BDI011002,,,,,,,Admin2,,,,,54,149,,,,,,,,,No,"Natural disaster,political reasons",No,No,Yes,Yes,No
@@ -108,7 +108,7 @@ Jan-2018,2018-01-04,Burundi,BDI,Rumonge,BDI018,Rumonge,BDI003006,,,,,,,Admin2,,,
 Jan-2018,2018-01-08,Burundi,BDI,Rutana,BDI015,Bukemba,BDI015001,,,,,,,Admin2,,,,,34,164,,,,,,,,,No,"Natural disaster,political reasons",No,No,Yes,Yes,No
 Jan-2018,2018-01-05,Burundi,BDI,Rutana,BDI015,Giharo,BDI015002,,,,,,,Admin2,,,,,1085,5778,,,,,,,,,No,"Natural disaster,political reasons",No,No,Yes,Yes,No
 Jan-2018,2018-01-03,Burundi,BDI,Rutana,BDI015,Gitanga,BDI015003,,,,,,,Admin2,,,,,157,750,,,,,,,,,No,"Natural disaster,political reasons",No,No,Yes,Yes,No
-Jan-2018,2018-01-08,Burundi,BDI,Rutana,BDI015,Mpinga-kayove,BDI015004,,,,,,,Admin2,,,,,96,447,,,,,,,,,No,"Natural disaster,political reasons",No,No,Yes,Yes,No
+Jan-2018,2018-01-08,Burundi,BDI,Rutana,BDI015,Mpinga-Kayove,BDI015004,,,,,,,Admin2,,,,,96,447,,,,,,,,,No,"Natural disaster,political reasons",No,No,Yes,Yes,No
 Jan-2018,2018-01-05,Burundi,BDI,Rutana,BDI015,Musongati,BDI015005,,,,,,,Admin2,,,,,39,170,,,,,,,,,No,"Natural disaster,political reasons",No,No,Yes,Yes,No
 Jan-2018,2018-01-07,Burundi,BDI,Rutana,BDI015,Rutana,BDI015006,,,,,,,Admin2,,,,,577,2547,,,,,,,,,No,"Natural disaster,political reasons",No,No,Yes,Yes,No
 Jan-2018,2018-01-06,Burundi,BDI,Ruyigi,BDI016,Butagazwa,BDI016001,,,,,,,Admin2,,,,,55,253,,,,,,,,,No,"Natural disaster,political reasons",No,No,Yes,Yes,No
