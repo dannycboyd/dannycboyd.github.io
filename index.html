@@ -2,13 +2,14 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Counties in California</title>
+		<title>Internally Displaced Peoples in Burundi</title>
         <script src="//cdn.jsdelivr.net/bluebird/3.5.0/bluebird.min.js"></script>
         <script type= "text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
         <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 		<style type="text/css">
             body {
-                background: #555
+                background: #666;
+                font: 12px sans-serif;
             }
             .commune {
                 opacity: .8;
@@ -21,13 +22,13 @@
             
             div.info {
                 position: absolute;
-                min-width: 400px;
-                min-height: 300px;
-                padding: 10px;
+                width: 290px;
+                min-height: 100px;
+                padding: 14px;
                 font: 12px sans-serif;
-                background: lightsteelblue;
-                border: 0px;
-                border-radius: 8px;
+/*                background: #;*/
+                border: 1px;
+                border-radius: 3px;
                 pointer-events: none;
             }
             
@@ -45,10 +46,9 @@
 	<body>
 		<script type="text/javascript" src="burundi.js"></script>
         <div>
-            <p>Geodata comes from the <a href="https://data.humdata.org/dataset/burundi-admin-bounderies">Humanitarian Data Exchange</a>.</p>
             <ul>
-                <li><a href="https://data.humdata.org/dataset/burundi-admin-bounderies">Boundaries</a></li>
-                <li><a href="https://data.humdata.org/dataset/burundi-baseline-assessment-data-iom-dtm">Statistics</a></li>
+                <li>Map geometry data comes from<a href="https://data.humdata.org/dataset/burundi-admin-bounderies">The Humanitarian Data Exchange</a></li>
+                <li>Displaced peoples data comes from the International Organization for Migration's <a href="http://www.globaldtm.info/burundi/">Global Displacement Tracking Matrix</a> via <a href="https://data.humdata.org/dataset/burundi-baseline-assessment-data-iom-dtm">HumData</a></li>
             </ul>
         </div>
 	</body>

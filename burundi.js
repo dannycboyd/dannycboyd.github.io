@@ -17,7 +17,7 @@ var color = d3.scaleThreshold()
     .domain([1, 150, 350, 450, 8500, 10000])
     .range(d3.schemeOrRd[6])
 
-var province_color = d3.scaleOrdinal(d3.schemeBlues[9]);
+var province_color = d3.scaleOrdinal(d3.schemeCategory20b);
 
 //Create SVG element
 var svg = d3.select("body")
@@ -63,29 +63,32 @@ function draw_province(name, features) {
         })
         .on('mouseout', _ => {
             d3.select(d3.event.target).style('fill', '');
+            clear_info();
         });
 }
 
 var info = d3.select('body').append('div')
     .attr('class', 'info')
-    .html('hi')
+    .html('')
     .style('left', 500 + 'px') // Float it at the x/y of the event
     .style('top', 650 + 'px');
 
 function set_info(row) {
     var title = row['Admin 2'];
     var subtitle = row['Admin 1'];
-    var date = row['Snapshot Date (MMM-yyyy)'];
+    var date = row['Survey Date (dd-MMM-yyyy)'];
     var household = row['HH'];
     var individual = row['Ind'];
-    info.html('<h1>' + title + '</h1>'
-              + '<h2>' + subtitle + '</h2>'
-              + '<h3>' + date + '</h3>'
-              + '<p>Total number of displaced individuals: ' + individual + '</p>'
-              + '<p>Total number of displaced households: ' + household + '</p>');
+    info.html('<h1>' + title + ' Commune</h1>'
+              + '<h2>' + subtitle + ' Province</h2>'
+              + '<h3>As of ' + date + '</h3>'
+              + `${individual} total displaced individuals present, `
+              + `${household} total displaced households.`);
 }
 
-set_info('Large Data', ['Hi there', 'this is some data'])
+function clear_info() {
+    info.html('');
+}
 
 Promise.all([L2$, data$]) // Flatten promises, read data
     .then(([L2, data]) => {
