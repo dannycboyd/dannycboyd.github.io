@@ -47,7 +47,7 @@ var info = d3.select('body').append('div')
     .attr('class', 'info')
     .style('left', `${shift.left + margin.left - 10}px`)
     .style('top', `${shift.top + margin.top + 20}px`)
-    .html('')
+    .html('<h3>Mouse over map for information</h3>')
 
 function set_info(row) {
     var title = row['Admin 2'];
