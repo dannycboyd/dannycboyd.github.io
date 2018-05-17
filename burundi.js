@@ -49,15 +49,18 @@ var info = d3.select('body').append('div')
     .style('top', `${shift.top + margin.top + 20}px`)
     .html('<h3>Mouse over map for information</h3>')
 
+var parsedate = d3.timeParse('%Y-%m-%d');
+var fmtdate = d3.timeFormat('%b %d, %Y');
+
 function set_info(row) {
     var title = row['Admin 2'];
     var subtitle = row['Admin 1'];
-    var date = row['Survey Date (dd-MMM-yyyy)'];
+    var date = parsedate(row['Survey Date (dd-MMM-yyyy)']);
     var household = row['HH'];
     var individual = row['Ind'];
     info.html('<h1>' + title + ' Commune</h1>'
               + '<h2>' + subtitle + ' Province</h2>'
-              + '<h3>Surveyed ' + date + '</h3>'
+              + '<h3>Surveyed ' + fmtdate(date) + '</h3>'
               + `${individual} total displaced individuals present, `
               + `${household} total displaced households.`);
 }
@@ -95,6 +98,7 @@ function draw_province(p_name, features, which) {
             return 'commune'; })
         .attr('id', d => d.geo.properties.Communes)
         .attr('d', d => path(d.geo))
+        .attr('fill', '#AAA')
         .on('mouseover', d => {
             d3.select(d3.event.target).style('stroke', () => province_color(name));
             set_info(d.data);
@@ -113,14 +117,15 @@ function color_province(p_name, features, which) {
     
     const color_scale = (which === 'HH') ? HHScale : indScale;
     const legend_title = 'Displaced ' + ((which === 'HH') ? 'households' : 'individuals')
-    console.log(which)
     
     province.selectAll('.commune')
         .data(data)
+        .transition()
+        .delay(200)
         .attr('fill', d => color_scale(d.data[which]));
     
-    color_legend.scale(color_scale)
-        .title(legend_title);
+    color_legend.title(legend_title)
+        .scale(color_scale)
     legend_g.call(color_legend);
 }
 
