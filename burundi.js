@@ -5,73 +5,49 @@ var Promise;
 var w = 700;
 var h = 850;
 
+var margin = {left: 20, right: 200, top: 5, bottom: 50}
+var shift = {left: 600, top: 600}
+
 //Define map projection
 var projection = d3.geoMercator()
 
 //Define path generator
-var path = d3.geoPath()
-                 .projection(projection);
+var path = d3.geoPath().projection(projection);
 
-var colorScale = d3.scaleSequential(d3.interpolateInferno)
-var color = d3.scaleThreshold()
-    .domain([1, 150, 350, 450, 8500, 10000])
-    .range(d3.schemeOrRd[6])
+var indScale = d3.scaleSequential(d3.interpolateBlues)
+var HHScale = d3.scaleSequential(d3.interpolatePurples)
+
+var color_legend = d3.legendColor()
+    .shapeWidth(30)
+    .cells(10)
+    .ascending(true)
+    .scale(indScale);
 
 var province_color = d3.scaleOrdinal(d3.schemeCategory20b);
 
 //Create SVG element
 var svg = d3.select("body")
             .append("svg")
-            .attr("width", w)
-            .attr("height", h);
+            .attr("width", w + margin.left + margin.right)
+            .attr("height", h + margin.top + margin.bottom);
 
 var province_g = svg.append('g')
-    .attr('class', 'borders');
+    .attr('class', 'borders')
+    .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
-var label_g = svg.append('g')
-    .attr('class', 'labels');
+var legend_g = svg.append('g')
+    .attr('id', 'legend')
+    .attr('transform', `translate(${shift.left + margin.left}, ${margin.top + 40})`);
 
-var city_g = svg.append('g')
-    .attr('class', 'cities');
-
-// bluebirdjs promise magic
-var json = Promise.promisify(d3.json); // Now they're promises instead of callback
-var csv = Promise.promisify(d3.csv);
-
-var L2$ = json ('Burundi_Admin_2_Communes.json')
-
-var data$ = csv('dtm-burundi-baseline-assessment-round-25.csv')
-
-function draw_province(name, features) {
-    console.log(name, features);
-    
-    const province = province_g.append('g')
-        .attr('class', name);
-        
-    province.selectAll('.commune')
-        .data(features.names.map(name => features[name]))
-        .enter()
-        .append('path')
-        .attr('class', 'commune')
-        .attr('id', d => d.geo.properties.Communes)
-        .attr('id', d => d.geo.properties.Communes)
-        .attr('d', d => path(d.geo))
-        .style('stroke', province_color(name))
-        .on('mouseover', d => {
-            d3.select(d3.event.target).style('fill', () => province_color(name));
-            set_info(d.data);
-        })
-        .on('mouseout', _ => {
-            d3.select(d3.event.target).style('fill', '');
-            clear_info();
-        });
-}
+var selector = d3.select('#selector')
+    .style('left', `${shift.left + margin.left}px`)
+    .style('top', `${shift.top + margin.top}px`)
 
 var info = d3.select('body').append('div')
     .attr('class', 'info')
+    .style('left', `${shift.left + margin.left - 10}px`)
+    .style('top', `${shift.top + margin.top + 20}px`)
     .html('')
-    .style('left', 500 + 'px') // Float it at the x/y of the event
-    .style('top', 700 + 'px');
 
 function set_info(row) {
     var title = row['Admin 2'];
@@ -90,12 +66,71 @@ function clear_info() {
     info.html('');
 }
 
+// bluebirdjs promise magic
+var json = Promise.promisify(d3.json); // Now they're promises instead of callback
+var csv = Promise.promisify(d3.csv);
+
+var L2$ = json ('Burundi_Admin_2_Communes.json')
+
+function transformData(row) {
+    row['Ind'] = +row['Ind'];
+    row['HH'] = +row['HH'];
+    return row;
+}
+
+var data$ = csv('dtm-burundi-baseline-assessment-round-25.csv', transformData)
+
+function draw_province(p_name, features, which) {
+    console.log(p_name, features, which);
+    
+    const province = province_g.select(`#${p_name.replace(' ', '-')}`);
+    const data = features.names.map(name => features[name]);
+        
+    province.selectAll('.commune')
+        .data(data)
+        .enter()
+        .append('path')
+        .attr('class', d => {
+            console.log(d);
+            return 'commune'; })
+        .attr('id', d => d.geo.properties.Communes)
+        .attr('d', d => path(d.geo))
+        .on('mouseover', d => {
+            d3.select(d3.event.target).style('stroke', () => province_color(name));
+            set_info(d.data);
+        })
+        .on('mouseout', _ => {
+            d3.select(d3.event.target).style('stroke', '');
+            clear_info();
+        });
+    
+    color_province(p_name, features, which);
+}
+
+function color_province(p_name, features, which) {
+    const province = province_g.select(`#${p_name.replace(' ', '-')}`);
+    const data = features.names.map(name => features[name]);
+    
+    const color_scale = (which === 'HH') ? HHScale : indScale;
+    const legend_title = 'Displaced ' + ((which === 'HH') ? 'households' : 'individuals')
+    console.log(which)
+    
+    province.selectAll('.commune')
+        .data(data)
+        .attr('fill', d => color_scale(d.data[which]));
+    
+    color_legend.scale(color_scale)
+        .title(legend_title);
+    legend_g.call(color_legend);
+}
+
 Promise.all([L2$, data$]) // Flatten promises, read data
     .then(([L2, data]) => {
     let provinces = {};
     let names = [];
     
-    console.log(L2);
+    indScale.domain(d3.extent(data, row => row['Ind']));
+    HHScale.domain(d3.extent(data, row => row['HH']));
     
     L2.features.forEach((feature) => {
         p_name = feature.properties['Provinces']
@@ -104,91 +139,44 @@ Promise.all([L2$, data$]) // Flatten promises, read data
         idp = data.find(row => {
             return row['Admin 2'] === c_name;
         })
-        console.log(idp);
         
         if (!provinces[p_name]) {
             provinces[p_name] = {}
+            provinces[p_name]['name'] = p_name;
             provinces[p_name]['names'] = []
             names.push(p_name);
         }
         provinces[p_name]['names'].push(c_name);
         provinces[p_name][c_name] = {geo: feature, data: idp};
-//        console.log(provinces)
-//        if (provinces[name]) { // keep track of all our data, separated nicely
-//            provinces[name].push(feature);
-//        }
-//        else {
-//            provinces[name] = [feature];
-//            names.push(name);
-//        }
     })    
-    console.log(data);
     
     projection.fitExtent([[0, 10], [w, h]], L2);
         
-    names.forEach(name => {
-        draw_province(name, provinces[name]);
-    })
+    province_g.selectAll('.province')
+        .data(names.map((name) => provinces[name]))
+        .enter()
+        .append('g')
+        .attr('class', 'province')
+        .attr('id', d => d.name.replace(' ', '-'));
     
-//    burundi.features.forEach((prov, i) => { // Order the data so it has the structure we need
-//        let properties = prov.properties;
-//        
-//        properties['lat'] = +pop[i].lat;
-//        properties['lon'] = +pop[i].lon;
-//        
-//        properties['population'] = +pop[i].pop
-//        properties['area'] = +pop[i].area // in km^2
-//        if(properties.area) {
-//            properties['ratio'] = properties.population / properties.area;
-//        }
-//        properties['centroid'] = path.centroid(prov);
-//    })
-//    
-////    cities.forEach(city => {
-////        city['pos'] = projection([city.lon, city.lat]); 
-////    });
-//    
-//    let extent = d3.extent(burundi.features, feature => feature.properties.ratio);
-////    color.domain(extent);
-//    colorScale.domain(extent);
-//    
-//    province_g.selectAll('path')
-//        .data(burundi.features)
-//        .enter()
-//        .append('path')
-//        .attr('class', 'province')
-//        .attr('d', path)
-//        .attr('id', d => d.properties['NAME_1'])
-//        .attr('stroke', 'blue')
-//        .attr('fill', d => {console.log(color(d.properties['ratio'])); return color(d.properties['ratio'])})
-//        .filter(d => !d.properties['ratio'])
-//        .attr('class', 'province unknown');
-//    
-//    province_g.selectAll('.label')
-//        .data(burundi.features)
-//        .enter()
-//        .append('text')
-//        .attr('class', 'label')
-//        .attr('x', d => d.properties.centroid[0])
-//        .attr('y', d => d.properties.centroid[1])
-//        .attr('text-anchor', 'middle')
-//        .text(d => d.properties['NAME_1']);
+    function draw(which) {
+        names.forEach(name => {
+            draw_province(name, provinces[name], which);
+        })
+    }
     
-//    city_g.selectAll('.city')
-//        .data(cities)
-//        .enter()
-//        .append('circle')
-//        .attr('cx', d => d.pos[0])
-//        .attr('cy', d => d.pos[1])
-//        .attr('r', d => city_size(d.code));
-//    
-//    city_g.selectAll('.label')
-//        .data(cities)
-//        .enter()
-//        .append('text')
-//        .attr('x', d => d.pos[0])
-//        .attr('y', d => d.pos[1])
-//        .text(d => d.name);
+    function color(which) {
+        names.forEach(name => {
+            color_province(name, provinces[name], which);
+        }) 
+    }
+    
+    draw('Ind');
+    
+    selector.on('change', _ => {
+            console.log(d3.event.target.value);
+            color(d3.event.target.value);
+        })
 }).catch(error => {
     console.error(error)
 });
