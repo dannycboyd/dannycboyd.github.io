@@ -131,6 +131,20 @@ function color_province(p_name, features, which) {
 
 Promise.all([L2$, data$]) // Flatten promises, read data
     .then(([L2, data]) => {
+    
+    let header = svg.append('g')
+        .attr('id', 'header')
+        .attr('transform', `translate(${margin.left}, ${30})`);
+    
+    header.append('text')
+        .attr('class', 'title')
+        .text('Internally Displaced People of Burundi');
+    
+    header.append('text')
+        .attr('class', 'subtitle')
+        .attr('transform', 'translate(5, 36)')
+        .text('As reported in January of 2018')
+    
     let provinces = {};
     let names = [];
     
