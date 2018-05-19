@@ -13,14 +13,16 @@
                 font: 12px sans-serif;
             }
             
+            svg {
+                font: 12px sans-serif;
+            }
+            
             #header .title {
-                font: sans-serif;
                 font-size: 36px;
                 font-weight: 300;
             }
             
             #header .subtitle {
-                font: sans-serif;
                 font-size: 24px;
                 font-weight: 200;
             }
@@ -28,6 +30,12 @@
             #selector {
                 position: absolute;
                 top: 150px;
+            }
+            
+            .legendTitle {
+                font: sans-serif;
+                font-size: 18px;
+                font-weight: 500;
             }
             
             .info {
@@ -52,15 +60,20 @@
                 margin-bottom: 10px;
             }
             
-            div.info h1 {
+            div.info h1, div.info h2 {
                 margin-top: 0;
-                margin-bottom: 15px;
+                margin-bottom: 10px;
+            }
+            
+            div.info h1, div.info h2, div.info h3{
+                font-weight: normal;
             }
             
             .commune {
                 opacity: .8;
                 stroke: black;
                 stroke-width: 0.5px;
+                shape-rendering: crispEdges; /* Make the lines crisp */
             }
 		</style>
 	</head>
