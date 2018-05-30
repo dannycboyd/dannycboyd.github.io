@@ -18,17 +18,25 @@
 	</head>
 	<body>
         <div id="div1">
-            <h1>Internal Displacement in Post-2015 Burundi</h1>
+            <h1>Burundi 2015 Unrest Aftermath</h1>
             <h3>CMPS 165 final project proposal</h3>
-            <h4>Danny Boyd</h4>
-            <p>This project will aim to provide a clear and succinct look at numbers of internally displaced people in Burundi after the 2015 coup and following political unrest. I've done a map visualization for my Program 6, which covered the data gathered in jan 2018. I'm curious in particular to see how the data changes as time progresses.</p>
-            <p>The displacement reports, which are the bulk of the data for this project, will come from the <a target="blank" href="http://www.globaldtm.info/burundi/">Displacement Tracking Matrix</a>, a project started by the International Organization for Migration (IOM). They have compiled comprehensive statistics on many aspects of the displacement. For example, here are some of the visualisations which the DTM has put together for 2017</p>
+            <h4>Danny Boyd, Ryan Oliver, Winston Wu</h4>
+            <p>After talking with the TAs, we have decided to try and tackle the Burundi data in a different manner. The <a target="blank" href="https://www.acleddata.com/dashboard/#108">Burundi data from ACLED</a> has several variables which we can use to make an interesting visualization:</p>
             <ul>
-                <li><a target="blank" href="https://drive.google.com/drive/folders/0B5kVYdvcMFtcakVDZ24yZFgyd2s">Burundi 2017 Dashboards</a></li>
-                <li><a target="blank" href="https://drive.google.com/drive/folders/1ILcxsZYMkqzXoA68IGiSGs4XvyBh1qWk">Burundi 2018 Dashboards</a></li>
+            	<li>Location (adm1/2/3, longitude, latitude)</li>
+            	<li>Date (down to day)</li>
+            	<li>Factions involved (actor 1, actor 2)</li>
+            	<li>Fatalities</li>
+            	<li>ACLED’s event type designations</li>
             </ul>
-            <p>Another visualization, not of displacement but of violent events is <a target="blank" href="https://www.acleddata.com/dashboard/#108">this one</a>, assembled by the Armed Conflict Location & Event Data Project (ACLED). The data tracks the number of individual conflict events over time, the number and location of violent events as well as what type of violence it was, and the number of conflicts commited by various armed groups</p>
-            <p>The United Nations Refugee Agency also has assembled a report on Burundi, which can be found <a target="blank" href="http://www.unhcr.org/59244aa77.pdf">here</a>. Details include externally displaced people, as well as plans for strategy and coordination</p>
+            <p>We want to make a project which looks at how the conflicts occurred during the 2015 unrest, specifically which actor groups were involved and how often.</p>
+            <p>To that end, we are interested in making a heat map of events which can be filtered by a particular actor. After discussing with Karthik, we think that this could be accomplished using a <a href="https://bl.ocks.org/Fil/eb0457ccaad00e65d21b80601c8a516e">hexbin</a>-style heatmap to group near points over the outlines of the burundi geojson data. A time slider will be utilized (likely per month, or over a range of months) to select a period of time for the heat map.</p>
+            
+            <p>Next to the map will be a multi-line graph (or similar chart) which shows conflicts/events over time where each line tracks the number of conflicts each actor participated in. Check boxes can be to toggle on/off the various actors. It may be possible to put fatalities/events overlayed.</p>
+            
+            <p>As a hex cell (or province, commune?) is selected, the multi-line chart will switch focus and redraw with data just occurring inside the region. An overlay will be used to show a list of the events which are currently filtered into the multi-line chart, along with various blurbs containing details about particular events.</p>
+            
+            <p>We think that this is an interesting story that we could tell. It also may be possible to retool this and aim it at a different armed conflict, if need be.</p>
         </div>
         <div id="other">
             <h3>My other projects hosted on GitHub:</h3>
