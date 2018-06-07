@@ -74,7 +74,7 @@ function clear_info() { // empty the overlay out out
 var json = Promise.promisify(d3.json); // Now they're promises instead of callback
 var csv = Promise.promisify(d3.csv);
 
-var L2$ = json ('britain.json') // promise which will resolve to the map json
+var L2$ = json ('britain2.json') // promise which will resolve to the map json
 
 function transformData(row) { // tranformation for CSV
     row['Ind'] = +row['Ind'];
