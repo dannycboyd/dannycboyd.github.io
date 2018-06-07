@@ -38,30 +38,33 @@ function rowTransformer(row) {
 var quarterly$ = fetchAsText('visas_filtered_georegions.csv')
 
 quarterly$.then(quarterly => {
-    console.log(quarterly);
+//    console.log(quarterly);
     let [columns, ...lines] = quarterly.split('\n');
     console.log(columns);
-    console.log(lines);
+    [_, _, ...columns] = columns.split(',');
+//    console.log(lines);
     let years = {}
     let years_l = [];
     for (line of lines) {
-        let [time, ...values] = line.split(',');
+        let [time, region, ...values] = line.split(',');
         let year = /\d{4}/.exec(time)[0];
         let quarter = /Q\d/.exec(time)[0];
 //        console.log(year, quarter, values);
-        
+        let tmp = {y: year, q: quarter, region: region};
+        for (let i = 0; i < columns.length; i++) {
+            tmp[columns[i]] = values[i];
+        }
         if (years[year]) {
             if (years[year][quarter]) {
-                years[year][quarter].push(values);
+                years[year][quarter].push(tmp);
             } else {
-                years[year][quarter] = [];
+                years[year][quarter] = [tmp];
             }
         } else {
-            years[year] = {};
+            years[year] = {[quarter]: [tmp]};
         }
-//        let year = line.match(/\d{4}/);
-//        console.log(year);
-//        let quarter = line.match()
     }
-        console.log(years);
+    console.log(years);
+    // at this point we have an object with years, each year has quarters
+    // we also have the column names, 
 })
