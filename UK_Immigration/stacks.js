@@ -11,6 +11,10 @@ var shift = {left: 600, top: 550}
 var imgScale = d3.scaleSequential(d3.interpolateBlues) // Color scale for individuals, blue
 var stack = d3.stack()
               .order(d3.stackOrderDescending);
+
+var popLine = d3.line()
+    .x(d => {console.log(d); return d})
+    .y(d => {console.log(d); return d})
 //Create SVG element
 var svg = d3.select("body") // set up the canvas
             .append("svg")
@@ -28,7 +32,7 @@ var qMap = {
     Q4: '12'
 }
 
-var parsedate = d3.timeParse('%Y-%m-%d'); // time and date parsing and formatting
+var parsedate = d3.timeParse('%Y-%m'); // time and date parsing and formatting
 var fmtdate = d3.timeFormat('%b %d, %Y');
 
 // bluebirdjs promise magic
@@ -38,14 +42,16 @@ var fetchAsText = Promise.promisify(d3.text);
 
 var L2$ = json ('britain.json') // promise which will resolve to the map json
 
-function rowTransformer(row) {
+function popTransform(row) {
     console.log(row);
     return row;
 }
 
 var quarterly$ = fetchAsText('visas_filtered_georegions.csv')
-
-quarterly$.then(quarterly => {
+var pop$ = csv('britain_pop_projections.csv', popTransform)
+Promise.all([quarterly$, pop$]).then(([quarterly, pop]) => {
+    console.log(pop);
+//quarterly$.then(quarterly => {
 //    console.log(quarterly);
     let [columns, ...lines] = quarterly.split('\n');
     let regions = [];
@@ -53,6 +59,7 @@ quarterly$.then(quarterly => {
     [_, _, ...columns] = columns.split(',');
 //    console.log(lines);
     let years = [];
+    let totals = [];
     let index = 0;
     for (line of lines) {
         let [time, region, ...values] = line.split(',');
@@ -73,6 +80,8 @@ quarterly$.then(quarterly => {
         }
         years[index][region] = {};
         for (let i = 0; i < columns.length; i++) {
+            if (region === 'Total')
+                continue; // Winston do the thing here D:
             years[index][region][columns[i]] = values[i];
         }
     }
@@ -90,42 +99,20 @@ quarterly$.then(quarterly => {
     
     xScale = d3.scaleTime()
                .domain([
-                    d3.min(years, function(d) { return d.date; }),
-                    d3.max(years, function(d) { return d.date; })
+                    d3.min(years, function(d) { return parsedate(d.date); }),
+                    d3.max(years, function(d) { return parsedate(d.date); })
                 ])
                .range([margin.left, w - margin.right * 2]);
+    console.log(xScale.domain());
     
     function setYScale(type) {
         yScale = d3.scaleLinear()
-            .domain([0, d3.max(years, (y) => {
-                let a = d3.max(regions, (r) => {
-                    return y[r][type]
-                })
-                console.log(a);
-                return a;
-            })])
+            .domain([0, 5000000])
             .range([h - margin.bottom, margin.top / 2])
             .nice();
     }
     setYScale(columns[0]);
     console.log(yScale.domain());
-//    yScale = d3.scaleLinear()
-//                .domain([
-//                    0,
-//                    d3.max(years, function(d) {
-//                        var sum = 0;
-//
-//                        //Loops once for each row, to calculate
-//                        //the total (sum) of sales of all vehicles
-//                        for (var i = 0; i < regions.length; i++) {
-//                            sum += d[regions[i]].sales;
-//                        };
-//
-//                        return sum;
-//                    })
-//                ])
-//                .range([h - padding, padding / 2])
-//                .nice();
 
     //Define axes
     xAxis = d3.axisBottom()
@@ -140,9 +127,9 @@ quarterly$.then(quarterly => {
 
     //Define area generator
     area = d3.area()
-                .x(function(d) {console.log(d); return xScale(d.data.date); })
-                .y0(function(d) {console.log(yScale(d[0])); return yScale(d[0]); })
-                .y1(function(d) {console.log(yScale(d[1])); return yScale(d[1]); });
+                .x((d) => xScale(parsedate(d.data.date)))
+                .y0((d) => yScale(d[0]))
+                .y1((d) => yScale(d[1]));
     
     chart_group.selectAll('.visa')
         .data(series)
@@ -155,5 +142,12 @@ quarterly$.then(quarterly => {
         .text(function(d) {
             return d.key;
         });
+    
+    chart_group.selectAll('#pop')
+        .data(pop)
+        .enter()
+        .append('path')
+        .attr('id', 'pop')
+        .attr('d', popLine)
 
 }).catch(error => {console.error(error)});
