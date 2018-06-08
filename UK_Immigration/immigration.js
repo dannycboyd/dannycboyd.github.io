@@ -14,14 +14,14 @@ var projection = d3.geoMercator() // Mercator, my mortal enemy
 //Define path generator
 var path = d3.geoPath().projection(projection); // Geopath generator, maps points/lines onto projection
 
-var indScale = d3.scaleSequential(d3.interpolateBlues) // Color scale for individuals, blue
+var imgScale = d3.scaleSequential(d3.interpolateBlues) // Color scale for individuals, blue
 var HHScale = d3.scaleSequential(d3.interpolatePurples) // Color scale for households, purple
 
 var color_legend = d3.legendColor() // External library
     .shapeWidth(30) // width of the color cells
     .cells(10) // # of cells
     .ascending(true) // Make the order go from top to bottom highest to lowest
-    .scale(indScale); // Set the initial scale to the individuals color scale
+    .scale(imgScale); // Set the initial scale to the individuals color scale
 
 //var province_color = d3.scaleOrdinal(d3.schemeCategory20b);
 
@@ -53,6 +53,7 @@ var parsedate = d3.timeParse('%Y-%m-%d'); // time and date parsing and formattin
 var fmtdate = d3.timeFormat('%b %d, %Y');
 
 function set_info(row) { // Set the informating using a data row
+    console.log(row);
 //    var title = row['Admin 2']; // title is the commune
 //    var subtitle = row['Admin 1']; // sub is the province
 //    var date = parsedate(row['Survey Date (dd-MMM-yyyy)']); // the survey date
@@ -73,7 +74,7 @@ function clear_info() { // empty the overlay out out
 var json = Promise.promisify(d3.json); // Now they're promises instead of callback
 var csv = Promise.promisify(d3.csv);
 
-var L2$ = json ('gadm36_GBR/gadm36_GBR_2.json') // promise which will resolve to the map json
+var L2$ = json ('britain2.json') // promise which will resolve to the map json
 
 function transformData(row) { // tranformation for CSV
     row['Ind'] = +row['Ind'];
@@ -81,16 +82,16 @@ function transformData(row) { // tranformation for CSV
     return row;
 }
 
-//var data$ = csv('dtm-burundi-baseline-assessment-round-25.csv', transformData) // promise which will resolve to the displaced peoples data
+var data$ = csv('data17/2017-trimmed.csv') // promise which will resolve to the displaced peoples data
 
-function draw_province(p_name, features, which) { // This function draws the communes
+function draw_province(p_name, features) { // This function draws the communes
 //    console.log(features);
 //    console.log(p_name, features, which);
     
     const province = province_g.select(`#${p_name.replace(' ', '-')}`); // Fixes issues with spaces in IDs
     const data = features.names.map(name => features[name]); // Create an array of features
     
-    console.log(province)
+//    console.log(province)
     console.log(data)
         
     province.selectAll('.adm_2')
@@ -98,10 +99,11 @@ function draw_province(p_name, features, which) { // This function draws the com
         .enter()
         .append('path')
         .attr('class', d => 'adm_2')
-        .attr('id', d => d.properties.Communes) // Each commune is identified
+        .attr('id', d => d.properties.lad17nm) // Each commune is identified
         .attr('d', d => path(d)) // Draw the borders
         .attr('fill', '#AAA') // base fill color
         .on('mouseover', d => { // Activate the overlay
+            console.log(d);
 //            d3.select(d3.event.target).style('stroke', () => province_color(p_name));
             set_info(d.data);
         })
@@ -110,32 +112,32 @@ function draw_province(p_name, features, which) { // This function draws the com
             clear_info();
         });
     
-    color_province(p_name, features, which); // Color the province
+    color_province(p_name, features); // Color the province
 }
 
-function color_province(p_name, features, which) { // Sets the fill color based on the datapoint
+function color_province(p_name, features) { // Sets the fill color based on the datapoint
     const province = province_g.select(`#${p_name.replace(' ', '-')}`);
     const data = features.names.map(name => features[name]); // same as previous
     
-    const color_scale = (which === 'HH') ? HHScale : indScale; // pick which color scale to use
-    const legend_title = ((which === 'HH') ? 'Households' : 'Individuals') // Used in the legend
+//    const color_scale = (which === 'HH') ? HHScale : imgScale; // pick which color scale to use
+//    const legend_title = ((which === 'HH') ? 'Households' : 'Individuals') // Used in the legend
     
-    province.selectAll('.commune') // Pick each commune
+    province.selectAll('.adm_2') // Pick each commune
         .data(data)
         .transition()
         .delay(200) // short delay
-        .attr('fill', d => color_scale(d.data[which]));
+        .attr('fill', d => d.data['All'] ? "#CCC" : "#333");
     
 //    color_legend.title(legend_title) // Swap the legend's color/title
 //        .scale(color_scale)
 //    legend_g.call(color_legend); // activate the legend
 }
 
-Promise.all([L2$]) // Flatten promises, read data
-    .then(([L2]) => {
+Promise.all([L2$, data$]) // Flatten promises, read data
+    .then(([L2, data]) => {
     
     console.log(L2);
-    
+    console.log(data);
     let header = svg.append('g') // One time set of the header
         .attr('id', 'header')
         .attr('transform', `translate(${margin.left}, ${30})`);
@@ -152,25 +154,32 @@ Promise.all([L2$]) // Flatten promises, read data
     let provinces = {};
     let names = [];
     
-//    indScale.domain(d3.extent(data, row => row['Ind'])); // set our color scale domains
+    imgScale.domain(d3.extent(data, row => row['All'])); // set our color scale domains
 //    HHScale.domain(d3.extent(data, row => row['HH']));
     
     L2.features.forEach((feature) => { // Data joining
-        gid_1 = feature.properties['GID_1'].replace('.', '-').replace(' ', '--')
-        name_2 = feature.properties['NAME_2'].replace(/\s/g, '-')
+        code = feature.properties['lad17cd'];//.replace('.', '-').replace(' ', '--')
+        name = feature.properties['lad17nm'];//.replace(/\s/g, '-')
+//        console.log(code);
         
-//        idp = data.find(row => { // Find the data row which matches the feature
-//            return row['Admin 2'] === name_2;
-//        })
-//        
-        if (!provinces[gid_1]) { // If this is the first time we've seen this province:
-            provinces[gid_1] = {} // make a new entry for it
-            provinces[gid_1]['name'] = gid_1; // set the province name
-            provinces[gid_1]['names'] = [] // Set up the array of commune names
-            names.push(gid_1); // Store the province name in the top level
+        let row = data.find(row => { // Find the data row which matches the feature
+//            console.log(row['Area Code4'])
+            return row['Area Code4'] === code;
+        })
+        console.log(row);
+        if (!row) {
+            row = {all: "-1"};
         }
-        provinces[gid_1]['names'].push(name_2); // Then store the commune name
-        provinces[gid_1][name_2] = feature; // store the map and row data
+//        
+        if (!provinces[code]) { // If this is the first time we've seen this province:
+            provinces[code] = {} // make a new entry for it
+            provinces[code]['name'] = code; // set the province name
+            provinces[code]['names'] = [] // Set up the array of commune names
+            names.push(code); // Store the province name in the top level
+        }
+        provinces[code]['names'].push(name); // Then store the commune name
+        provinces[code][name] = feature; // store the map and row data
+        provinces[code][name]['data'] = row;
     })
     console.log(provinces);
     
@@ -194,7 +203,7 @@ Promise.all([L2$]) // Flatten promises, read data
             color_province(name, provinces[name], which);
         }) 
     }
-    
+//    draw_province(names[0], provinces[names[0]], 'HH');
     draw('Ind'); // Draw the provinces
     
     selector.on('change', _ => { // Listener for the selector
