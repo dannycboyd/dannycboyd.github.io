@@ -21,7 +21,7 @@ var svg = d3.select("body") // set up the canvas
             .attr("width", w + margin.left + margin.right)
             .attr("height", h + margin.top + margin.bottom);
 
-var chart_group = svg.append('g') // group for the map
+var stacked_area = svg.append('g') // group for the map
     .attr('id', 'window')
     .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
@@ -61,38 +61,49 @@ Promise.all([quarterly$, pop$]).then(([quarterly, pop]) => {
     let years = [];
     let totals = [];
     let index = 0;
-    for (line of lines) {
+    for (line of lines) { // crunch the csv file line by line
         let [time, region, ...values] = line.split(',');
-        if (regions.indexOf(region) === -1) {
-            regions.push(region);
-        }
         
         let year = /\d{4}/.exec(time)[0];
         let quarter = /Q\d/.exec(time)[0];
         
         let date = year + '-' + qMap[quarter];
+        
+        
+        
 //        console.log(date);
         if (!years[index]) {
             years[index] = {date: date};
+            totals[index] = {date: date};
         } else if (years[index].date !== date) {
             index++;
             years[index] = {date: date};
+            totals[index] = {date: date};
         }
-        years[index][region] = {};
-        for (let i = 0; i < columns.length; i++) {
-            if (region === 'Total')
-                continue; // Winston do the thing here D:
-            years[index][region][columns[i]] = values[i];
+        
+        
+        if (region === 'Total') {
+            totals[index][region] = {total: values[0]};
+//            totals[index][region]['total'] = values[0];
+        } else {
+            if (regions.indexOf(region) === -1) {
+                regions.push(region);
+            }
+            years[index][region] = {};
+            for (let i = 0; i < columns.length; i++) {
+                years[index][region][columns[i]] = values[i];
+            }
         }
     }
     console.log(columns, regions)
-    console.log(years);
+    console.log(totals, years);
     
+    // this function just picks which column to draw for the area chart
     function setType(type) { // from the D3 book, ch16
         stack.keys(regions)
-            .value((d, key) => d[key][type])
+            .value((d, key) => {console.log(d, key); return d[key][type];})
     }
-    setType(columns[0]);
+    setType(columns[0]); // set it to Totals
     
     var series = stack(years);
     console.log(series);
@@ -131,11 +142,12 @@ Promise.all([quarterly$, pop$]).then(([quarterly, pop]) => {
                 .y0((d) => yScale(d[0]))
                 .y1((d) => yScale(d[1]));
     
-    chart_group.selectAll('.visa')
+    stacked_area.selectAll('.visa')
         .data(series)
         .enter()
         .append('path')
         .attr('class', 'visa')
+        .attr('id', (d) => d.key)
         .attr('d', area)
         .attr('fill', (d,i) => d3.schemeCategory20[i])
         .append("title")  //Make tooltip
@@ -143,7 +155,7 @@ Promise.all([quarterly$, pop$]).then(([quarterly, pop]) => {
             return d.key;
         });
     
-    chart_group.selectAll('#pop')
+    stacked_area.selectAll('#pop')
         .data(pop)
         .enter()
         .append('path')
