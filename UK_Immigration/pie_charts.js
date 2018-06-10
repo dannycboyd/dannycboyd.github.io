@@ -127,9 +127,9 @@ function pie_chart(data, index) {
             return color(d.data.category); })
         .on('mouseover', function(d) {
             console.log(d);
-            tooltip.select('.category').html(d.data.category);
-            tooltip.select('.count').html(comma_format(+(d.data.percent*total*1000)));
-            tooltip.select('.percent').html(pformat(d.data.percent));
+            tooltip.select('.category').html("Origin: " + d.data.category);
+            tooltip.select('.count').html("Population: "+comma_format(+(d.data.percent*total*1000)));
+            tooltip.select('.percent').html("Percent: "+pformat(d.data.percent));
             tooltip.style('display', 'block');
         })
         .on('mouseout', function() {tooltip.style('display', 'none');})
@@ -157,7 +157,7 @@ function pie_chart(data, index) {
         .append('g')
         .attr('class', 'legend')
         .attr('transform', function(d, i) {
-            console.log(color.domain());
+            //console.log(color.domain());
             var height = legendRectSize + legendSpacing;
             var offset =  height * color.domain().length / 2;
             var horz = -2 * legendRectSize - 25;
@@ -171,11 +171,13 @@ function pie_chart(data, index) {
         .style('fill', color)
         .style('stroke', color);
 
+    //row["Year"]
+    
     legend.append('text')
         .attr('x', legendRectSize + legendSpacing)
         .attr('y', legendRectSize - legendSpacing)
         .text(function(d) { 
-            console.log(d);
+            //console.log(d);
             return d; });
     
     
