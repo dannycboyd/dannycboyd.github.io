@@ -1,29 +1,75 @@
 var d3;
 var Promise;
-
+/* These are the regions we will draw, everything else gets summed to 'other' during the dataset construction
+{count: 7789825, name: "Asia South"}
+1
+:
+{count: 4726514, name: "Asia East"}
+2
+:
+{count: 4500844, name: "Europe Other"}
+3
+:
+{count: 3847396, name: "Africa Sub-Saharan"}
+4
+:
+{count: 3429414, name: "Middle East"}
+5
+:
+{count: 2235289, name: "Asia South East"}
+*/
 //Width and height
-var w = 1000;
-var h = 700;
+var w = 750;
+var h = 450;
 
 var margin = {left: 20, right: 200, top: 30, bottom: 50} // margin/positioning objects
 var shift = {left: 600, top: 550}
 
 var imgScale = d3.scaleSequential(d3.interpolateBlues) // Color scale for individuals, blue
 var stack = d3.stack()
-              .order(d3.stackOrderDescending);
+    .order(d3.stackOrderAscending);
 
 var popLine = d3.line()
     .x(d => {console.log(d); return d})
     .y(d => {console.log(d); return d})
 //Create SVG element
 var svg = d3.select("body") // set up the canvas
-            .append("svg")
-            .attr("width", w + margin.left + margin.right)
-            .attr("height", h + margin.top + margin.bottom);
+    .append("svg")
+    .attr("width", w + margin.left + margin.right)
+.attr("height", h + margin.top + margin.bottom);
 
-var chart_group = svg.append('g') // group for the map
-    .attr('id', 'window')
+var stacked_area = svg.append('g') // group for the map
+    .attr('id', 'stacked-area')
     .attr('transform', `translate(${margin.left}, ${margin.top})`);
+
+var legend = stacked_area.append('g')
+    .attr('id', 'legend')
+    .attr('transform', `translate(${w + 50}, 0)`)
+
+function draw_legend(categories, color) {
+    let step = h / categories.length;
+    console.log(step, h, categories.length);
+    let ypos = 0;
+    let v_pad = 3;
+    categories.forEach((c, i) => {
+        legend.append('rect')
+            .attr('class', c)
+            .attr('x', 0)
+            .attr('y', ypos)
+            .attr('width', 30)
+            .attr('height', step - v_pad)
+            .attr('fill', color[i]);
+        legend.append('text')
+            .attr('class', c)
+            .text(c)
+            .attr('x', 30)
+            .attr('y', ypos + step/2)
+            .attr('text-anchor', 'start')
+            .attr('fill', 'black');
+        ypos += step;
+    });
+    
+}
 
 var qMap = {
     Q1: '03',
@@ -61,38 +107,59 @@ Promise.all([quarterly$, pop$]).then(([quarterly, pop]) => {
     let years = [];
     let totals = [];
     let index = 0;
-    for (line of lines) {
+    for (line of lines) { // crunch the csv file line by line
         let [time, region, ...values] = line.split(',');
-        if (regions.indexOf(region) === -1) {
-            regions.push(region);
-        }
         
         let year = /\d{4}/.exec(time)[0];
         let quarter = /Q\d/.exec(time)[0];
         
         let date = year + '-' + qMap[quarter];
+        
 //        console.log(date);
         if (!years[index]) {
             years[index] = {date: date};
+            totals[index] = {date: date};
         } else if (years[index].date !== date) {
             index++;
             years[index] = {date: date};
+            totals[index] = {date: date};
         }
-        years[index][region] = {};
-        for (let i = 0; i < columns.length; i++) {
-            if (region === 'Total')
-                continue; // Winston do the thing here D:
-            years[index][region][columns[i]] = values[i];
+        
+        if (region === 'Total') {
+            totals[index][region] = {total: +values[0]};
+//            totals[index][region]['total'] = values[0];
+        } else {
+            if (regions.indexOf(region) === -1) {
+                regions.push(region);
+            }
+            years[index][region] = {};
+            for (let i = 0; i < columns.length; i++) {
+                years[index][region][columns[i]] = +values[i];
+            }
         }
     }
-    console.log(columns, regions)
-    console.log(years);
+    let counts = {};
+    regions.forEach(r => counts[r] = 0);
+    years.forEach((q, i) => {
+        regions.forEach(r => counts[r] += q[r]['total'])
+    });
+    // pick the top 7 regions;
+    let top_regions = regions.map(r => {
+        return {count: counts[r], name: r};
+    });
+    top_regions.sort((a, b) => b.count - a.count);
+    console.log(top_regions);
     
+    console.log(counts);
+    console.log(columns, regions)
+    console.log(totals, years);
+    
+    // this function just picks which column to draw for the area chart
     function setType(type) { // from the D3 book, ch16
         stack.keys(regions)
             .value((d, key) => d[key][type])
     }
-    setType(columns[0]);
+    setType(columns[0]); // set it to Totals
     
     var series = stack(years);
     console.log(series);
@@ -102,13 +169,23 @@ Promise.all([quarterly$, pop$]).then(([quarterly, pop]) => {
                     d3.min(years, function(d) { return parsedate(d.date); }),
                     d3.max(years, function(d) { return parsedate(d.date); })
                 ])
-               .range([margin.left, w - margin.right * 2]);
+               .range([0, w]);
     console.log(xScale.domain());
     
     function setYScale(type) {
+        console.log('a');
         yScale = d3.scaleLinear()
-            .domain([0, 5000000])
-            .range([h - margin.bottom, margin.top / 2])
+            .domain([
+                0,
+                d3.max(years, (y) => {
+                    let sum = 0;
+                    for (let r of regions) {
+                        sum += +y[r][type]
+                    }
+                    return sum;
+                })
+            ])
+            .range([h, 0])
             .nice();
     }
     setYScale(columns[0]);
@@ -131,11 +208,12 @@ Promise.all([quarterly$, pop$]).then(([quarterly, pop]) => {
                 .y0((d) => yScale(d[0]))
                 .y1((d) => yScale(d[1]));
     
-    chart_group.selectAll('.visa')
+    stacked_area.selectAll('.visa')
         .data(series)
         .enter()
         .append('path')
         .attr('class', 'visa')
+        .attr('id', (d) => d.key)
         .attr('d', area)
         .attr('fill', (d,i) => d3.schemeCategory20[i])
         .append("title")  //Make tooltip
@@ -143,11 +221,26 @@ Promise.all([quarterly$, pop$]).then(([quarterly, pop]) => {
             return d.key;
         });
     
-    chart_group.selectAll('#pop')
+    stacked_area.selectAll('#pop')
         .data(pop)
         .enter()
         .append('path')
         .attr('id', 'pop')
         .attr('d', popLine)
-
+    
+    let stacks_x = stacked_area.append('g')
+        .attr('transform', () => `translate(0, ${h})`)
+        .attr('class', 'stacks x-axis')
+        .call(xAxis)
+        .selectAll('text')
+        .attr('text-anchor', 'start')
+        .attr('transform', 'rotate(30)');
+    
+    let stacks_y = stacked_area.append('g')
+        .attr('transform', () => `translate(${w}, 0)`)
+        .attr('class', 'stacks y-axis')
+        .call(yAxis);
+    
+    draw_legend(regions, d3.schemeCategory20)
+    
 }).catch(error => {console.error(error)});
