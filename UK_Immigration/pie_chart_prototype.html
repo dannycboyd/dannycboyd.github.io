@@ -9,7 +9,7 @@
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.js"></script>
 		<style type="text/css">
             .arc text {
-                font: 10px sans-serif;
+                font: 20px sans-serif;
                 text-anchor: middle;
             }
 
@@ -41,17 +41,23 @@
                 background: rgba(0, 0, 0, 0.8);
                 color: #fff;
                 border-radius: 2px;
-	       }
+            }
+            pie{
+                display: inline-block;
+            }
 		</style>
 	</head>
 	<body>
+        <!--
         <div id="option">
             <input name="updateButton" 
                 type="button" 
                 value="Update" 
                 onclick="updateData()" />
         </div>
-        <div id="pie_charts"></div>
+        -->
+        <div><h4>Percent of Foreign Born Population Living in the UK by Category</h4></div>
+        <div id="pie_charts" style="width:900px"></div>
         <script type="text/javascript" src="pie_charts.js"></script>
 
 	</body>

@@ -8,51 +8,54 @@ var csv = Promise.promisify(d3.csv);
 var pie_data;
 var chart_data$ = csv('immigrant_population_data.csv');
 
-var width = 960,
-    height = 500,
-    radius = Math.min(width, height) / 2;
+var pie_width = 250,
+    pie_height = 250,
+    radius = Math.min(pie_width, pie_height) / 1.25;
 
-var margin = {
-    top: 80,
-    bottom: 80,
-    left: 120,
-    right: 120,
+var pie_margin = {
+    top: 20,
+    bottom: 20,
+    left: 10,
+    right: 0
 };
 
-var pformat = d3.format('.2%');
+var percent_format = d3.format('.2%');
 var comma_format = d3.format(",");
 
-var color = d3.scaleOrdinal()
-    .domain(["United Kingdom", "Sub-Saharan Africa", "EU 8", "EU 14", "South Asia", "Other"])
-    .range(["40444a","#98abc5", "#8a89a6", "#7b6888", "6a5489", "3b911a" ]);
+var pie_color = d3.scaleOrdinal()
+    .domain(["United Kingdom", "Sub-Saharan Africa", "EU 8",    "EU 14",   "South Asia", "Other"])
+    .range( ["40444a",         "#AEC7E8",            "#8C564B", "#9467BD", "#D62728",    "#C7C7C7" ]);
 
  var pie = d3.pie()
         //.sort(null)
         .value(function(d) { return d.percent; });
 
-function midAngle(d) {
-    return d.startAngle + (d.endAngle - d.startAngle) / 2;
-}
 
 
+//var svg = d3.select('#pie_charts')
 
 Promise.all([chart_data$]) // Flatten promises, read data
     .then(([chart_data]) => {
     
-    for (var index in chart_data) {
-        if (index != "columns"){
-            for (var inner in chart_data[index]){
-                chart_data[index][inner] = +chart_data[index][inner];
-                //console.log(typeof(data[index][inner]));
+    for (var row in chart_data) {
+        if (row != "columns"){
+            for (var col in chart_data[row]){
+                chart_data[row][col] = +chart_data[row][col];
             }
         }
     }
     
     pie_data = chart_data;
-    pie_chart(chart_data,0);    
-}).catch(error => { // Catch any error from inside the promise chain
+    pie_chart(chart_data,0);
+    pie_chart(chart_data,6);
+    pie_chart(chart_data,12);
+}).catch(error => {//Catch any error from inside the promise chain
     console.error(error)
 });
+
+function midAngle(d) {
+    return d.startAngle + (d.endAngle - d.startAngle) / 2;
+}
 
 //pass a index and will make a pie chart from the row at that index
 function pie_chart(data, index) {
@@ -84,7 +87,7 @@ function pie_chart(data, index) {
 
     var arc = d3.arc()
         .outerRadius(radius * 0.6)
-        .innerRadius(radius * 0.4);
+        .innerRadius(radius * 0.275);
 
     var outerArc = d3.arc()
         .outerRadius(radius * 0.9)
@@ -96,10 +99,12 @@ function pie_chart(data, index) {
     var svg = d3.select('#pie_charts')
     //.select("body").append("svg")
         .append('svg')
-        .attr("width", width)
-        .attr("height", height)
+        .attr("id","pie")
+        .attr("display", "inline-block")
+        .attr("width", pie_width+pie_margin.right + pie_margin.left)
+        .attr("height", pie_height)
       .append("g")
-        .attr("transform", "translate("+ width/2 +","+ height/2 +")");
+        .attr("transform", "translate("+ pie_width/2 +","+ pie_height/2 +")");
 
     var g = svg.selectAll(".arc")
         .data(pie(data2))
@@ -124,12 +129,12 @@ function pie_chart(data, index) {
         .attr("d", arc)
         .style("fill", function(d) { 
             //console.log(d);
-            return color(d.data.category); })
+            return pie_color(d.data.category); })
         .on('mouseover', function(d) {
             console.log(d);
             tooltip.select('.category').html("Origin: " + d.data.category);
             tooltip.select('.count').html("Population: "+comma_format(+(d.data.percent*total*1000)));
-            tooltip.select('.percent').html("Percent: "+pformat(d.data.percent));
+            tooltip.select('.percent').html("Percent: "+percent_format(d.data.percent));
             tooltip.style('display', 'block');
         })
         .on('mouseout', function() {tooltip.style('display', 'none');})
@@ -138,28 +143,35 @@ function pie_chart(data, index) {
 			.style('left', (d3.event.layerX - 25) + 'px');
 		})
         ;
+    g.append("text")
+        .attr("text-anchor", "middle")
+        .attr('font-size', '20em')
+        .attr('y', -5)
+        .text(row["Year"]);
     
-
+    g.append("text")
+        .attr('y', 15)
+        .text("Population");
+    
     svg.append("g")
         .attr("class", "labels");
-    
-    
-        
+           
     svg.append("g")
         .attr("class", "lines");
     
+    /*
     var legendRectSize = 18;
     var legendSpacing = 4;
     
     var legend = svg.selectAll('.legend')
-        .data(color.domain())
+        .data(pie_color.domain())
         .enter()
         .append('g')
         .attr('class', 'legend')
         .attr('transform', function(d, i) {
-            //console.log(color.domain());
+            //console.log(pie_color.domain());
             var height = legendRectSize + legendSpacing;
-            var offset =  height * color.domain().length / 2;
+            var offset =  height * pie_color.domain().length / 2;
             var horz = -2 * legendRectSize - 25;
             var vert = i * height - offset;
             return 'translate(' + horz + ',' + vert + ')';
@@ -168,8 +180,8 @@ function pie_chart(data, index) {
     legend.append('rect')
         .attr('width', legendRectSize)
         .attr('height', legendRectSize)
-        .style('fill', color)
-        .style('stroke', color);
+        .style('fill', pie_color)
+        .style('stroke', pie_color);
 
     //row["Year"]
     
@@ -179,7 +191,7 @@ function pie_chart(data, index) {
         .text(function(d) { 
             //console.log(d);
             return d; });
-    
+    */
     
     /*
     g.append("text")
@@ -192,10 +204,12 @@ function pie_chart(data, index) {
     */
 }
 
+/*
 function updateData() {
-    if(typeof updateData.counter=='undefined'){updateData.counter = 1;}
+    if(typeof updateData.counter=='undefined'){updateData.counter = 6;}
     if (updateData.counter < 13){
         pie_chart(pie_data, updateData.counter);
-        updateData.counter++;
+        updateData.counter=updateData.counter+6;
     }
 }
+*/
