@@ -24,7 +24,7 @@ var comma_format = d3.format(",");
 
 var pie_color = d3.scaleOrdinal()
     .domain(["United Kingdom", "Sub-Saharan Africa", "EU 8",    "EU 14",   "South Asia", "Other"])
-    .range( ["#00008B",         "#AEC7E8",            "#8C564B", "#9467BD", "#D62728",    "#C7C7C7" ]);
+    .range( ["#00247D",         "#AEC7E8",            "#8C564B", "#9467BD", "#D62728",    "#C7C7C7" ]);
 
  var pie = d3.pie()
         //.sort(null)
