@@ -2,80 +2,14 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Something about British Immigration</title>
+		<title>UK Immigration</title>
         <script src="https://cdn.jsdelivr.net/bluebird/3.5.0/bluebird.min.js"></script>
 <!--        <script src="./bluebird.js"></script>-->
         <script type= "text/javascript" src="https://d3js.org/d3.v4.js"></script>
         <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.js"></script>
-		<style type="text/css">
-            body {
-/*                background: #888;*/
-                font: 12px sans-serif;
-            }
-            
-            svg {
-                font: 12px sans-serif;
-            }
-            
-            #header .title {
-                font-size: 36px;
-                font-weight: 300;
-            }
-            
-            #header .subtitle {
-                font-size: 24px;
-                font-weight: 200;
-            }
-            
-            #selector {
-                position: absolute;
-                top: 150px;
-            }
-            
-            .legendTitle {
-                font: sans-serif;
-                font-size: 18px;
-                font-weight: 500;
-            }
-            
-            .info {
-                position: absolute;
-                top: 180px;
-            }
-            
-            div.info {
-                position: absolute;
-                width: 290px;
-                min-height: 100px;
-                padding: 10px;
-                font: 12px sans-serif;
-/*                background: #;*/
-/*                border: solid 1px #777;*/
-                border-radius: 3px;
-                pointer-events: none;
-            }
-            
-            div.info p {
-                margin-top: 0;
-                margin-bottom: 10px;
-            }
-            
-            div.info h1, div.info h2 {
-                margin-top: 0;
-                margin-bottom: 10px;
-            }
-            
-            div.info h1, div.info h2, div.info h3{
-                font-weight: normal;
-            }
-            
-            .adm_2 {
-                opacity: .8;
-                stroke: black;
-                stroke-width: 0.5px;
-            }
-		</style>
+		<link rel="stylesheet" type="text/css" href="stylesheet.css">
+        <!--<style type="text/css"></style>-->
 	</head>
 	<body>
 <!--
@@ -85,7 +19,11 @@
         </select>
 -->
 <!--		<script type="text/javascript" src="immigration.js"></script>-->
+        <h1>UK Immigration</h1>
         <script type="text/javascript" src="stacks.js"></script>
+        <div style="width:800px" ><h4 style="text-align: center">  Percent of Foreign Born Population Living in the UK by Category</h4></div>
+        <div id="pie_charts" style="width:800px"></div>
+        <script type="text/javascript" src="pie_charts.js"></script>
         <div>
             <h4>Put together by Danny Boyd</h4>
 <!--
