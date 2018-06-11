@@ -24,7 +24,7 @@ var comma_format = d3.format(",");
 
 var pie_color = d3.scaleOrdinal()
     .domain(["United Kingdom", "Sub-Saharan Africa", "EU 8",    "EU 14",   "South Asia", "Other"])
-    .range( ["40444a",         "#AEC7E8",            "#8C564B", "#9467BD", "#D62728",    "#C7C7C7" ]);
+    .range( ["#00008B",         "#AEC7E8",            "#8C564B", "#9467BD", "#D62728",    "#C7C7C7" ]);
 
  var pie = d3.pie()
         //.sort(null)
@@ -86,8 +86,8 @@ function pie_chart(data, index) {
     }data2.push(other);
 
     var arc = d3.arc()
-        .outerRadius(radius * 0.6)
-        .innerRadius(radius * 0.275);
+        .outerRadius(radius * 0.5)
+        .innerRadius(radius * 0.175);
 
     var outerArc = d3.arc()
         .outerRadius(radius * 0.9)
@@ -146,13 +146,13 @@ function pie_chart(data, index) {
     g.append("text")
         .attr("text-anchor", "middle")
         .attr('font-size', '20em')
-        .attr('y', -5)
+        .attr('y', 5)
         .text(row["Year"]);
-    
+    /*
     g.append("text")
         .attr('y', 15)
         .text("Population");
-    
+    */
     svg.append("g")
         .attr("class", "labels");
            
