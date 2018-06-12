@@ -10,7 +10,7 @@
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.js"></script>
 		<style type="text/css">
             body {
-                background: #888;
+/*                background: #888;*/
                 font: 12px sans-serif;
             }
             
@@ -75,6 +75,10 @@
                 stroke: black;
                 stroke-width: 0.5px;
             }
+            
+            select#stack_area_type {
+                position: absolute;
+            }
 		</style>
 	</head>
 	<body>
@@ -85,7 +89,11 @@
         </select>
 -->
 <!--		<script type="text/javascript" src="immigration.js"></script>-->
-        <script type="text/javascript" src="stacks.js"></script>
+        <select id="stack_area_type">
+            <option disabled selected>Pick a visa type</option>
+        </select>
+        <script type="text/javascript" src="stacks2.js"></script>
+<!--        <script type="text/javascript" src="stacks.js"></script>-->
         <div>
             <h4>Put together by Danny Boyd</h4>
 <!--
