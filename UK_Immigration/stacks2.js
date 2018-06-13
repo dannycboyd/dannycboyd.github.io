@@ -35,9 +35,13 @@ function setYScale() {
 var xScale = d3.scaleTime()
     .range([0, w]);
 
+var areaColor = d3.scaleOrdinal()
+    .domain(["South Asia", "East Asia", "Europe (non-EU)", "Sub-Saharan Africa", "Middle East", "South East Asia", "Other"].reverse())
+    .range( ['#ff4242',    '#d13a3a',   '#f4a742',         '#5041f4',            '#c37cef',     '#f96b52',         '#aaaaaa'].reverse())
+
 var imgScale = d3.scaleSequential(d3.interpolateBlues) // Color scale for individuals, blue
 var stack = d3.stack()
-    .order(d3.stackOrderDescending);
+    .order(d3.stackOrderNone);
 
 //Define area generator
 area = d3.area()
@@ -69,13 +73,12 @@ function setType(type) { // from the D3 book, ch16
     console.log('Set the type to ' + type);
     stack.keys(regions)
         .value((d, key) => {
-//            console.log(
         return d[key][type];
-    })
+    });
     series = stack(to_stack);
 }
 
-var regions = ["Asia South", "Asia East", "Europe Other", "Africa Sub-Saharan", "Middle East", "Asia South East", "Other"];
+var regions = ["South Asia", "East Asia", "Europe (non-EU)", "Sub-Saharan Africa", "Middle East", "South East Asia", "Other"];
 var others = [];
 var types = []; // will contain the columns
 
@@ -108,15 +111,15 @@ function draw_legend(categories, color) {
     categories.forEach((c, i) => {
         legend.append('rect')
             .attr('class', c)
-            .attr('x', 0)
+            .attr('x', 10)
             .attr('y', ypos)
-            .attr('width', 30)
+            .attr('width', 40)
             .attr('height', step - v_pad)
             .attr('fill', color[i]);
         legend.append('text')
             .attr('class', c)
             .text(c)
-            .attr('x', 30)
+            .attr('x',50)
             .attr('y', ypos + step/2)
             .attr('text-anchor', 'start')
             .attr('fill', 'black');
@@ -146,7 +149,7 @@ var qMap = {
     Q4: '12'
 }
 
-var parsedate = d3.timeParse('%Y-%m'); // time and date parsing and formatting
+var parsedate = d3.timeParse('%Y'); // time and date parsing and formatting
 var fmtdate = d3.timeFormat('%b %d, %Y');
 
 // bluebirdjs promise magic
@@ -154,10 +157,8 @@ var json = Promise.promisify(d3.json); // Now they're promises instead of callba
 var csv = Promise.promisify(d3.csv);
 var fetchAsText = Promise.promisify(d3.text);
 
-var quarterly$ = csv('visas_filtered_georegions.csv', (row, i, keys) => {
-//    console.log(row, i, keys);
-    var [year, q] = row.Quarter.split('-');
-    row['date'] = parsedate(year + "-" + qMap[q]);
+var yearly$ = csv('visas_yearly_regions.csv', (row, i, keys) => {
+    row['date'] = parsedate(row.Year);
     var [_, _, ...cols] = keys;
     cols.forEach(col => {
         row[col] = +row[col];
@@ -166,20 +167,21 @@ var quarterly$ = csv('visas_filtered_georegions.csv', (row, i, keys) => {
 })
 //var pop$ = csv('britain_pop_projections.csv', popTransform)
 var series, to_stack;
-quarterly$.then((quarterly) => {
-    console.log(quarterly);
+yearly$.then((yearly) => {
+    console.log(yearly);
     let other = {};
-    var [_, _, ...cols] = quarterly.columns;
+    var [_, _, ...cols] = yearly.columns;
     types = cols;
     console.log(types);
     to_stack = [];
     let index = -1;
     let old_date = '';
-    quarterly.forEach(d => {
-//        console.log(old_date, d.Quarter)
-        if (old_date !== d.Quarter) {
+    yearly.forEach(d => {
+        console.log(d);
+//        console.log(old_date, d.Year)
+        if (old_date !== d.Year) {
             index++;
-            old_date = d.Quarter;
+            old_date = d.Year;
             to_stack[index] = {date: d.date};
         }
         if (d.Region === 'Other') {
@@ -214,7 +216,7 @@ quarterly$.then((quarterly) => {
     series = stack(to_stack)
     console.log(series);
     
-    xScale.domain(d3.extent(quarterly, d => d.date));
+    xScale.domain(d3.extent(yearly, d => d.date));
     console.log(xScale.domain());
     
     setYScale(types[0]);
