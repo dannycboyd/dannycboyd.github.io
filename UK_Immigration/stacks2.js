@@ -36,8 +36,8 @@ var xScale = d3.scaleTime()
     .range([0, w]);
 
 var areaColor = d3.scaleOrdinal()
-    .domain(["South Asia", "East Asia", "Europe (non-EU)", "Sub-Saharan Africa", "Middle East", "South East Asia", "Other"].reverse())
-    .range( ['#ff4242',    '#d13a3a',   '#f4a742',         '#5041f4',            '#c37cef',     '#f96b52',         '#aaaaaa'].reverse())
+    .domain(["South Asia", "East Asia", "Europe (non-EU)", "Sub-Saharan Africa", "Middle East", "South East Asia", "Other"])
+    .range( ['#ff4242',    '#d13a3a',   '#f4a742',         '#5041f4',            '#c37cef',     '#f96b52',         '#aaaaaa'])
 
 var imgScale = d3.scaleSequential(d3.interpolateBlues) // Color scale for individuals, blue
 var stack = d3.stack()
@@ -103,11 +103,12 @@ var popLine = d3.line()
     .x(d => {console.log(d); return d})
     .y(d => {console.log(d); return d})
 
-function draw_legend(categories, color) {
+function draw_legend(color) {
+    let categories = color.domain();
     let step = h / categories.length;
     console.log(step, h, categories.length);
-    let ypos = 0;
     let v_pad = 3;
+    let ypos = h - (step + v_pad);
     categories.forEach((c, i) => {
         legend.append('rect')
             .attr('class', c)
@@ -115,7 +116,7 @@ function draw_legend(categories, color) {
             .attr('y', ypos)
             .attr('width', 40)
             .attr('height', step - v_pad)
-            .attr('fill', color[i]);
+            .attr('fill', color(categories[i]));
         legend.append('text')
             .attr('class', c)
             .text(c)
@@ -123,7 +124,7 @@ function draw_legend(categories, color) {
             .attr('y', ypos + step/2)
             .attr('text-anchor', 'start')
             .attr('fill', 'black');
-        ypos += step;
+        ypos -= step;
     });
     
 }
@@ -138,7 +139,7 @@ function draw_chart() {
         .attr('class', 'visa')
         .attr('id', (d) => d.key)
         .attr('d', area)
-        .attr('fill', (d,i) => d3.schemeCategory20[i])
+        .attr('fill', (d,i) => areaColor(areaColor.domain()[i]))
         .append("title")  //Make tooltip
         .text(d => d.key);
 }
@@ -178,15 +179,16 @@ yearly$.then((yearly) => {
     let old_date = '';
     yearly.forEach(d => {
         console.log(d);
+        if (d.Region === 'Total') return;
 //        console.log(old_date, d.Year)
         if (old_date !== d.Year) {
             index++;
             old_date = d.Year;
             to_stack[index] = {date: d.date};
+            to_stack[index]['Other'] = {};
         }
         if (d.Region === 'Other') {
-            other = d;
-            to_stack[index]['Other'] = other;
+            to_stack[index].Other = d;
             return;
         }
         if (regions.indexOf(d.Region) < 0) {
@@ -194,12 +196,13 @@ yearly$.then((yearly) => {
                 others.push(d.Region);
             }
             types.forEach(col => {
-                other[col] += d[col]
+                to_stack[index].Other[col] += d[col];
+//                other[col] += d[col]
             });
             return;
         }
 //        console.log(to_stack, index);
-        to_stack[index][d.Region] = {};
+//        to_stack[index][d.Region] = d;
         to_stack[index][d.Region] = d;
         return;
     })
@@ -237,6 +240,6 @@ yearly$.then((yearly) => {
         .attr('text-anchor', 'start')
         .attr('transform', 'rotate(30)');
     
-    draw_legend(regions, d3.schemeCategory20)
+    draw_legend(areaColor)
     
 }).catch(error => {console.error(error)});
