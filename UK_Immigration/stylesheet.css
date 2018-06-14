@@ -98,3 +98,8 @@ div.info h1, div.info h2, div.info h3{
 pie{
     display: inline-block;
 }
+
+/* Stacked Bar Chart */
+.axis .domain {
+    display: none;
+}
