@@ -36,6 +36,8 @@ var z = d3.scaleOrdinal()
 var stack = d3.stack()
     .order(d3.stackOrderNone)
 
+// Legend
+
 var quantize = d3.scaleQuantize()
     .range(["rgb(186, 196, 174)", "rgb(156, 173, 133)", "rgb(121, 150, 85)", "rgb(157, 224, 76)",  "rgb(237, 0, 229)", "rgb(0, 229, 237)", "rgb(237, 0, 0)"]);
 
@@ -55,6 +57,14 @@ var legendQuant = d3.legendColor()
 
 svg.select(".legendQuant")
     .call(legendQuant);
+    
+// tooltip
+var tooltip = d3.select('#stacked_bar')
+    .append('div')
+    .attr('class', 'tooltip');
+    
+tooltip.append('div')
+    .attr('class', 'amount');
     
 d3.csv("visa_totals_type_totals.csv", function(d, i, columns) {
 //    console.log(d, columns);
@@ -99,8 +109,17 @@ d3.csv("visa_totals_type_totals.csv", function(d, i, columns) {
       .attr("y", function(d) { return y(d[1]); })
       .attr("height", function(d) { return y(+d[0]) - +y(d[1]); })
       .attr("width", barw)
-        .attr('id', d => fmtdate(d.data.Quarter));
-
+        .attr('id', d => fmtdate(d.data.Quarter))
+      .on('mouseover', function(d) {
+        console.log(d);
+        tooltip.select('.amount').html(d[1]-d[0]);
+        tooltip.style('display', 'block');
+      })
+      .on('mouseout', function() {tooltip.style('display', 'none');})
+      .on('mousemove', function(d) {
+        tooltip.style('top', (d3.event.layerY + 10) + 'px').style('left', (d3.event.layerX - 25) + 'px');
+  });
+    
   g.append("g")
       .attr("class", "axis")
       .attr("transform", "translate(0," + height + ")")
