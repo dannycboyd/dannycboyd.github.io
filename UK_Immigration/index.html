@@ -19,30 +19,86 @@
         </select>
 -->
 <!--		<script type="text/javascript" src="immigration.js"></script>-->
-        <h1>UK Immigration</h1>
-        <div>
-            <svg width="960" height="500"></svg>
+    <h1>UK Immigration</h1>
+    <div>
+        <svg width="960" height="500"></svg>
             <div id="stacked_bar" style="width:800px"></div>
             <script type="text/javascript" src="stacked_bar.js"></script>
             <p>
                 *Other refers to visas that do not fit the standard classification (i.e Transit visas, Returning Resident visas).
             </p>
-        </div>
+    </div>
         <div id="stack_area_div">
             <select id="stack_area_type">
                 <option disabled selected>Pick a visa type</option>
             </select>
             <script type="text/javascript" src="stacks2.js"></script>
         </div>
-        <div id="ro_visa_pies">
-            <div style="width:800px" ><h4 style="text-align: center">Percentages of Foreign-Born Population in the UK by Category</h4></div>
-            <div id="pie_charts" style="width:800px"></div>
+    <div id="ro_visa_pies">
+        <div style="width:800px" >
+            <h4 style="text-align: center">Percentages of Foreign-Born Population in the UK by Category </h4>
+        </div>
+        <div id="pie_charts" style="width:800px"></div>
             <script type="text/javascript" src="pie_charts.js"></script>
-            <div>
+        <div>
+    </div>
+        
+<!--Info-->            
+    <div class = "note" id ="note"  style="position:relative;right:0px; font-size:16px; text-align:center;">
+        <div class = 'author'>
+            <h4 style="font-weight: bold"><br/>Created by</h4>
+                <p style="position:relative;top:0px;right:0px; font-size:16px; text-align:center;" id="myParagraph">
+                    Danny Boyd (dacboyd@ucsc.edu)<br> 
+                    Ryan Oliver (rdoliver@ucsc.edu)<br>
+                    Winston Wu (wkwu@ucsc.edu) <br>
+                    In collaboration with Professor Suresh Lodha</p>
+                <p><a href="https://github.com/dannycboyd/dannycboyd.github.io/tree/master/UK_Immigration">Github Link</a></p>
+            <h4 style="font-weight: bold"><br/>Designed for</h4>
+                <p>
+                    University of California, Santa Cruz<br>
+                    CMPS 263: Data Visualization, Winter 2018<br>
+                    Spring 2018
+                    
+                </p>
         </div>
         
-            <h4>Put together by Danny Boyd, Ryan Oliver, and Winston Wu</h4>
+    
+        <div class="row">
+            <div class="column left">
+                <b>Files Submitted</b>
+                <p> index.html<br>
+                    stylesheet.css<br>
+                    pie_charts.js<br>
+                    STUB.csv
+                </p>
+            </div>
+            <div class="column middle1">
+                <b>Data Sources</b>
+                <p>
+                    <a href="">
+                        STUB: Visas Data</a><br>
+                    <a href="">
+                        STUB: Foreign Born Population Data</a><br>
+                </p>
+            </div>
+            <div class="column middle2">
+                <b>Visualization sources</b>
+                <p>
+                    <a href="">
+                        STUB: Viz 1</a><br/>
+                    <a href="">
+                        STUB: Viz 2 Stub</a>
+                </p>
+            </div>
+            <div class="column right">
+                <b>Code Sources</b>
+                <p>STUB</p>
+            </div>
+        </div>
+    </div>
+            
 <!--
+            <h4>Put together by Danny Boyd, Ryan Oliver, and Winston Wu</h4>
             <ul>
                 <li>
                     Map geometry data comes from <a href="https://data.humdata.org/dataset/burundi-admin-bounderies"> The Humanitarian Data Exchange </a>
