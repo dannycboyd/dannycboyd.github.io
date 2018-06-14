@@ -191,7 +191,7 @@ function pie_chart_row2(p1_data) {
     
     
     var arc = d3.arc()
-        .outerRadius(radius * 0.5)
+        .outerRadius(radius * 0.4)
         .innerRadius(radius * 0.0000001)
     ;
 
