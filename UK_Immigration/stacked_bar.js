@@ -1,12 +1,9 @@
 var stuff = function() {
     
-var w = 600,
-    h = 450,
-    margin = {top: 20, right: 200, bottom: 30, left: 40},
-    svg = d3.select("#stack_svg").attr("width", w + margin.left + margin.right)
-    .attr("height", h + margin.top + margin.bottom);
-//    width = +svg.attr("width") - margin.left - margin.right,
-//    height = +svg.attr("height") - margin.top - margin.bottom,
+var svg = d3.select("#stack_svg"),
+    margin = {top: 20, right: 20, bottom: 30, left: 40},
+    width = +svg.attr("width") - margin.left - margin.right,
+    height = +svg.attr("height") - margin.top - margin.bottom,
     g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 /*var qMap = {
@@ -28,12 +25,11 @@ function parseTime(dateQ) {
     
 var formatComma = d3.format(",");
     
-var x = d3.scaleBand()
-    .paddingInner(0.1)
-    .rangeRound([0, w]);
+var x = d3.scaleTime()
+    .rangeRound([0, width - 180]);
 
 var y = d3.scaleLinear()
-    .rangeRound([h, 0]);
+    .rangeRound([height, 0]);
 
 var z = d3.scaleOrdinal()
     .domain(["total_work", "family", "total_dependent", "total_study_no_short", "study_short", "total_no_visit", "total_other" ])
@@ -51,11 +47,11 @@ var quantize = d3.scaleQuantize()
 
 svg.append("g")
     .attr("class", "legendQuant")
-    .attr("transform", `translate(${w + margin.left},35)`);
+    .attr("transform", "translate(825,35)");
 
 var legendQuant = d3.legendColor()
     .shapeWidth(30)
-    .shapeHeight(h/7 - 3)
+    .shapeHeight(height/7 - 3)
     .cells(7)
     .orient("vertical")
     .labels(["Other", "Visit", "Short Term Study", "Long Term Study", "Dependent", "Family","Work"])
@@ -65,7 +61,7 @@ svg.select(".legendQuant")
     .call(legendQuant);
     
 // tooltip
-var tooltip = d3.select('#stack_svg_div')
+var tooltip = d3.select('#stacked_bar')
     .append('div')
     .attr('class', 'tooltip');
     
@@ -79,21 +75,22 @@ d3.csv("visa_totals_type_totals.csv", function(d, i, columns) {
     cols.forEach(col => {
         d.total += +d[col];
     });
-//    console.log(d.Quarter, d.total);
-//    d.Quarter = parseTime(d.Quarter);
-//    console.log(d.Quarter);
+    console.log(d.Quarter, d.total);
+  d.Quarter = parseTime(d.Quarter);
+    console.log(d.Quarter);
   return d;
 }, function(error, data) {
+    let barw = width / data.length - 18;
   if (error) throw error;
+
   var keys = data.columns.slice(1);
     console.log(keys);
 
   data.sort(function(a, b) { return b.total - a.total; });
     
     var stacked = stack.keys(keys)(data);
-  x.domain(data.map(function(d) { return d.Quarter; }));
-    let barw = x.bandwidth();
-    console.log(x.domain(), barw);
+  x.domain(d3.extent(data.map(function(d) { return d.Quarter; })));
+    console.log(x.domain());
   y.domain([0, d3.max(stacked, function(d) {console.log(d); return +d[0][1]; })]).nice();
     console.log(y.domain());
     console.log(y.range());
@@ -122,13 +119,12 @@ d3.csv("visa_totals_type_totals.csv", function(d, i, columns) {
       })
       .on('mouseout', function() {tooltip.style('display', 'none');})
       .on('mousemove', function(d) {
-        tooltip.style('top', (d3.event.layerY + 10) + 'px')
-            .style('left', (d3.event.layerX - 25) + 'px');
+        tooltip.style('top', (d3.event.layerY + 10) + 'px').style('left', (d3.event.layerX - 25) + 'px');
   });
     
   g.append("g")
       .attr("class", "axis")
-      .attr("transform", "translate(0," + h + ")")
+      .attr("transform", "translate(0," + height + ")")
       .call(d3.axisBottom(x));
 
   g.append("g")

@@ -34,14 +34,9 @@ svg {
     top: 180px;
 }
 
-div#stack_area_div {
-    float: left;
-}
-
 select#stack_area_type {
     position: absolute;
-    left: 60px;
-    top: 100px
+    left: 2rem;
 }
 
 
@@ -79,13 +74,6 @@ div.info h1, div.info h2, div.info h3{
 /*End Area Chart Styles*/
 
 /*Begin Pie Chart styles*/
-div#ro_visa_pies {
-    float: right;
-}
-
-div#pie_charts {
-}
-
 .arc text {
     font: 20px sans-serif;
     text-anchor: middle;

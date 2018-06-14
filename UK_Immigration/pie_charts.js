@@ -28,7 +28,7 @@ var pie_color = d3.scaleOrdinal()
 pie_color2 = d3.scaleOrdinal()
     .domain(["United Kingdom","EU 14"  ,"EU 8"   ,"EU 2"   ,"EU Other","Europe Other","Middle East and Central Asia","East Asia","South Asia","South East Asia","Sub-Saharan Africa","North Africa","North America","Central and South America","Oceania","Other"])
 //.range([ "#00247D"       ,"#9467BD","#8C564B","       ","#7095ef" ,"#5041f4"     ,"#7228a3"                     ,"#d13a3a"  ,"#ff4242"   ,"#f96b52"        ,"#f4a742"           ,"       "     ,"       "      ,"       "                  ,"       "])
-  .range([ "#00247D"       ,"#094ef7","#0090ff","#49d8fc","#92E7FC" ,"#5041f4"     ,"#7228a3"                     ,"#d13a3a"  ,"#ff4242"   ,"#f96b52"        ,"#f4a742"           ,"#f4a742"     ,"#13c425"      ,"#79c94a"                  ,"#f23acd"  ,"#C7C7C7"])
+  .range([ "#00247D"       ,"#094ef7","#0090ff","#49d8fc","#92E7FC" ,"#5041f4"     ,"#7228a3"                     ,"#d13a3a"  ,"#ff4242"   ,"#f96b52"        ,"#FFEE0A"           ,"#f4a742"     ,"#13c425"      ,"#79c94a"                  ,"#f23acd"  ,"#C7C7C7"])
     ;
 
  var pie = d3.pie()
