@@ -136,6 +136,7 @@ d3.csv("visa_totals_type_totals.csv", function(d, i, columns) {
       .attr('transform', `translate(${w}, 0)`)
       .call(d3.axisRight(y))//.ticks(null, "s"))
     .append("text")
+      .attr('transform', `translate(-100, 0)`)
       .attr("x", 2)
       .attr("y", y(y.ticks().pop()) + 1.5)
       .attr("dy", "0.32em")
