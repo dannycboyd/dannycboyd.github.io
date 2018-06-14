@@ -91,8 +91,10 @@ div.info h1, div.info h2, div.info h3{
     line-height: 140%; /*Interlineado*/
     
     font-weight: 300;
-    background: rgba(0, 0, 0, 0.8);
-    color: #fff;
+    /*next two lines edited*/
+    background: rgba(210, 213, 219, 0.9);
+    color: #000;
+    
     border-radius: 2px;
 }
 
