@@ -164,3 +164,8 @@ pie{
           stroke-width: 2px;
         }
 /*End Info Styles*/
+
+/* index.html style*/
+ul {
+    list-style-type: none;
+}
