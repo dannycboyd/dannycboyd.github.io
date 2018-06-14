@@ -11,12 +11,12 @@ var margin = {left: 20, right: 200, top: 30, bottom: 50} // margin/positioning o
 var shift = {left: 600, top: 550}
 
 //Create SVG element
-var svg = d3.select("body") // set up the canvas
+var svg_area = d3.select("#stack_area_div") // set up the canvas
     .append("svg")
     .attr("width", w + margin.left + margin.right)
 .attr("height", h + margin.top + margin.bottom);
 
-var stacked_area = svg.append('g') // group for the map
+var stacked_area = svg_area.append('g') // group for the map
     .attr('id', 'stacked-area')
     .attr('transform', `translate(${margin.left}, ${margin.top})`);
 

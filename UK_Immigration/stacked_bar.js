@@ -1,6 +1,6 @@
 var stuff = function() {
     
-var svg = d3.select("svg"),
+var svg = d3.select("#stack_svg"),
     margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = +svg.attr("width") - margin.left - margin.right,
     height = +svg.attr("height") - margin.top - margin.bottom,
@@ -43,7 +43,7 @@ var stack = d3.stack()
 var quantize = d3.scaleQuantize()
     .range(["rgb(186, 196, 174)", "rgb(156, 173, 133)", "rgb(121, 150, 85)", "rgb(157, 224, 76)",  "rgb(154, 46, 173)", "rgb(65, 173, 224)", "rgb(216, 224, 67)"]);
 
-var svg = d3.select("svg");
+//var svg = d3.select("svg");
 
 svg.append("g")
     .attr("class", "legendQuant")
@@ -51,7 +51,7 @@ svg.append("g")
 
 var legendQuant = d3.legendColor()
     .shapeWidth(30)
-    .shapeHeight(60)
+    .shapeHeight(height/7 - 3)
     .cells(7)
     .orient("vertical")
     .labels(["Other", "Visit", "Short Term Study", "Long Term Study", "Dependent", "Family","Work"])
