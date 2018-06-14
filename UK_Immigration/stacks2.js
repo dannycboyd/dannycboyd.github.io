@@ -22,7 +22,7 @@ var stacked_area = svg_area.append('g') // group for the map
 
 var legend = stacked_area.append('g')
     .attr('id', 'legend')
-    .attr('transform', `translate(${w + 50}, 0)`)
+    .attr('transform', `translate(${w + 60}, 0)`)
 
 var yScale = d3.scaleLinear()
     .range([h, 0])
@@ -66,7 +66,12 @@ let stacks_x = stacked_area.append('g')
 
 let stacks_y = stacked_area.append('g')
     .attr('transform', () => `translate(${w}, 0)`)
-    .attr('class', 'stacks y-axis')
+    .attr('class', 'stacks y-axis');
+stacks_y.append('text')
+    .attr('transform', `translate(-15, 10)`)
+    .text('Total visas granted')
+    .attr('text-anchor', 'end')
+    .attr('fill','black');
 
 // this function just picks which column to draw for the area chart
 function setType(type) { // from the D3 book, ch16
@@ -106,26 +111,34 @@ var popLine = d3.line()
 function draw_legend(color) {
     let categories = color.domain();
     let step = h / categories.length;
-    console.log(step, h, categories.length);
     let v_pad = 3;
-    let ypos = h - (step + v_pad);
-    categories.forEach((c, i) => {
-        legend.append('rect')
-            .attr('class', c)
-            .attr('x', 10)
-            .attr('y', ypos)
-            .attr('width', 40)
-            .attr('height', step - v_pad)
-            .attr('fill', color(categories[i]));
-        legend.append('text')
-            .attr('class', c)
-            .text(c)
-            .attr('x',50)
-            .attr('y', ypos + step/2)
-            .attr('text-anchor', 'start')
-            .attr('fill', 'black');
-        ypos -= step;
-    });
+    var legendQuant = d3.legendColor()
+        .shapeWidth(30)
+        .shapeHeight(step - v_pad)
+        .cells(color.length)
+        .orient('vertical')
+        .labels(categories)
+        .scale(color);
+    legend.call(legendQuant);
+    console.log(step, h, categories.length);
+//    let ypos = h - (step + v_pad);
+//    categories.forEach((c, i) => {
+//        legend.append('rect')
+//            .attr('class', c)
+//            .attr('x', 10)
+//            .attr('y', ypos)
+//            .attr('width', 40)
+//            .attr('height', step - v_pad)
+//            .attr('fill', color(categories[i]));
+//        legend.append('text')
+//            .attr('class', c)
+//            .text(c)
+//            .attr('x',50)
+//            .attr('y', ypos + step/2)
+//            .attr('text-anchor', 'start')
+//            .attr('fill', 'black');
+//        ypos -= step;
+//    });
     
 }
 function draw_chart() {

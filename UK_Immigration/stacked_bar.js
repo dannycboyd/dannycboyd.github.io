@@ -47,7 +47,7 @@ var quantize = d3.scaleQuantize()
 
 svg.append("g")
     .attr("class", "legendQuant")
-    .attr("transform", "translate(825,35)");
+    .attr("transform", `translate(${w + margin.left + 60},35)`);
 
 var legendQuant = d3.legendColor()
     .shapeWidth(30)
@@ -129,7 +129,8 @@ d3.csv("visa_totals_type_totals.csv", function(d, i, columns) {
 
   g.append("g")
       .attr("class", "axis")
-      .call(d3.axisLeft(y).ticks(null, "s"))
+      .attr('transform', `translate(${w}, 0)`)
+      .call(d3.axisRight(y))//.ticks(null, "s"))
     .append("text")
       .attr("x", 2)
       .attr("y", y(y.ticks().pop()) + 1.5)
