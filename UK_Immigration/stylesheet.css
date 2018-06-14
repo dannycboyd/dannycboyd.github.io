@@ -1,7 +1,8 @@
 /*Start Area Chart Styles*/
 div#stack_area_div {
+    display: block;
     position: absolute;
-    top: 10px;
+    top: 30px;
 }
 
 body {
@@ -41,7 +42,8 @@ svg {
 
 select#stack_area_type {
     position: absolute;
-    left: 2rem;
+    left: 60px;
+    top: 100px;
 }
 
 
@@ -80,7 +82,8 @@ div.info h1, div.info h2, div.info h3{
 
 /*Begin Pie Chart styles*/
 div#ro_visa_pies {
-    position: absolute;
+    display: block;
+    position: relative;
     top: 10px;
     left: 850px;
 }
@@ -109,8 +112,8 @@ div#ro_visa_pies {
     line-height: 140%; /*Interlineado*/
     
     font-weight: 300;
-    background: rgba(0, 0, 0, 0.8);
-    color: #fff;
+    background: rgba(210, 213, 219, 0.95);
+    color: #000;
     border-radius: 2px;
 }
 
@@ -121,8 +124,9 @@ pie{
 
 /*Begin Stacked Bar Chart */
 div#stack_svg_div {
-    position: absolute;
-    top: 650px;
+    display: block;
+    position: relative;
+    top: 10px;
     
 }
 
@@ -156,8 +160,8 @@ div#stack_svg_div {
                 position:absolute;
             }
         #note{
-                position:relative;
-               top: 1300px;
+            position:relative;
+            top: 10px;
                 
             }
         .note {
@@ -176,5 +180,5 @@ ul {
 }
 
 h4 {
-    text-align: center;
+    text-align: left;
 }
