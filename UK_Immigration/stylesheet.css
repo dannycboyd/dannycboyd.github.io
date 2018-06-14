@@ -83,9 +83,10 @@ div.info h1, div.info h2, div.info h3{
     left: 130px;
     padding: 10px;
     position: absolute;
+    /*
     text-align: center;
+    */
     top: 95px;
-    width: 160px;
     z-index: 10;
     line-height: 140%; /*Interlineado*/
     font-family: "Open Sans", sans-serif;

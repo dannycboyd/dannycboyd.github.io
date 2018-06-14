@@ -61,12 +61,13 @@ function midAngle(d) {
 function pie_chart(data, index) {
     //console.log("piechartcall")
     var row = data[index]
-    var data2 = [];
+    var p1_data = [];
+    var p2_data = [];
 
     //console.log(data.columns);
     var total = row["Total"];
     //console.log(total);
-    //data2.push(0)
+    //p1_data.push(0)
     var col_name;
     var other = {category: 'Other', percent: 0, year: row["Year"]};
     for (var col in data.columns){
@@ -77,13 +78,14 @@ function pie_chart(data, index) {
             col_name === "Sub-Saharan Africa" ||
             col_name === "United Kingdom"
             ){   
-            data2.push({category: col_name,
+            p1_data.push({category: col_name,
                         percent:row[col_name]/total,
-                        year: row["Year"]})
+                        //year: row["Year"]
+                         })
         }else if (col_name != "Year" && col_name != "Total"){
             other.percent = other.percent + row[col_name]/total;
         }
-    }data2.push(other);
+    }p1_data.push(other);
 
     var arc = d3.arc()
         .outerRadius(radius * 0.5)
@@ -107,7 +109,7 @@ function pie_chart(data, index) {
         .attr("transform", "translate("+ pie_width/2 +","+ pie_height/2 +")");
 
     var g = svg.selectAll(".arc")
-        .data(pie(data2))
+        .data(pie(p1_data))
       .enter().append("g")
         .attr("class", "arc");
 
@@ -116,27 +118,40 @@ function pie_chart(data, index) {
         .attr('class', 'tooltip');                 
 
     tooltip.append('div')                        
-        .attr('class', 'category');                   
+        .attr('class', 'category')
+        //.style('display','table-cell')
+        .style('font-family', 'monospace')
+        //.style('display','inline-block')
+        ;
 
     tooltip.append('div')                        
-        .attr('class', 'count');                   
+        .attr('class', 'count')
+        .style('font-family', 'monospace')
+        //.style('display','table-cell')
+        //.style('display','inline-block')
+    ;
 
     tooltip.append('div')                        
-        .attr('class', 'percent');
+        .attr('class', 'percent')
+        .style('font-family', 'monospace')
+        //.style('display','table-cell')
+        //.style('display','inline-block')
+    ;
     
     g.append("path")
-        .data(pie(data2))
+        .data(pie(p1_data))
         .attr("d", arc)
         .style("fill", function(d) { 
             //console.log(d);
             return pie_color(d.data.category); })
         .on('mouseover', function(d) {
             console.log(d);
-            tooltip.select('.category').html("Origin: " + d.data.category);
-            tooltip.select('.count').html("Population: "+comma_format(+(d.data.percent*total*1000)));
-            tooltip.select('.percent').html("Percent: "+percent_format(d.data.percent));
+            tooltip.select('.category').html("Origin&nbsp&nbsp&nbsp&nbsp&nbsp" + ": " + d.data.category);
+            tooltip.select('.count').html("Population&nbsp" + ": "+ comma_format(+(d.data.percent*total*1000)));
+            tooltip.select('.percent').html( "Percent&nbsp&nbsp&nbsp&nbsp: " + percent_format(d.data.percent));
             tooltip.style('display', 'block');
         })
+        .on('mouseout', function() {tooltip.style('display', 'none');})
         .on('mouseout', function() {tooltip.style('display', 'none');})
         .on('mousemove', function(d) {
 			tooltip.style('top', (d3.event.layerY + 10) + 'px')
@@ -159,57 +174,4 @@ function pie_chart(data, index) {
     svg.append("g")
         .attr("class", "lines");
     
-    /*
-    var legendRectSize = 18;
-    var legendSpacing = 4;
-    
-    var legend = svg.selectAll('.legend')
-        .data(pie_color.domain())
-        .enter()
-        .append('g')
-        .attr('class', 'legend')
-        .attr('transform', function(d, i) {
-            //console.log(pie_color.domain());
-            var height = legendRectSize + legendSpacing;
-            var offset =  height * pie_color.domain().length / 2;
-            var horz = -2 * legendRectSize - 25;
-            var vert = i * height - offset;
-            return 'translate(' + horz + ',' + vert + ')';
-        });
-        
-    legend.append('rect')
-        .attr('width', legendRectSize)
-        .attr('height', legendRectSize)
-        .style('fill', pie_color)
-        .style('stroke', pie_color);
-
-    //row["Year"]
-    
-    legend.append('text')
-        .attr('x', legendRectSize + legendSpacing)
-        .attr('y', legendRectSize - legendSpacing)
-        .text(function(d) { 
-            //console.log(d);
-            return d; });
-    */
-    
-    /*
-    g.append("text")
-        .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
-        .attr("dy", ".35em")
-        .text(function(d) { 
-            //console.log(d.data.category);
-            return (d.data.category); });
-    //.toFixed(2)
-    */
 }
-
-/*
-function updateData() {
-    if(typeof updateData.counter=='undefined'){updateData.counter = 6;}
-    if (updateData.counter < 13){
-        pie_chart(pie_data, updateData.counter);
-        updateData.counter=updateData.counter+6;
-    }
-}
-*/
