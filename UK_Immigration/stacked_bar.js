@@ -33,7 +33,7 @@ var y = d3.scaleLinear()
 
 var z = d3.scaleOrdinal()
     .domain(["total_work", "family", "total_dependent", "total_study_no_short", "study_short", "total_no_visit", "total_other" ])
-    .range(["rgb(237, 0, 0)", "rgb(0, 229, 237)", "rgb(237, 0, 229)", "rgb(157, 224, 76)", "rgb(121, 150, 85)", "rgb(156, 173, 133)", "rgb(186, 196, 174)"]);
+    .range(["rgb(216, 224, 67)", "rgb(65, 173, 224)", "rgb(154, 46, 173)", "rgb(157, 224, 76)", "rgb(121, 150, 85)", "rgb(156, 173, 133)", "rgb(186, 196, 174)"]);
 
 var stack = d3.stack()
     .order(d3.stackOrderNone)
@@ -41,7 +41,7 @@ var stack = d3.stack()
 // Legend
 
 var quantize = d3.scaleQuantize()
-    .range(["rgb(186, 196, 174)", "rgb(156, 173, 133)", "rgb(121, 150, 85)", "rgb(157, 224, 76)",  "rgb(237, 0, 229)", "rgb(0, 229, 237)", "rgb(237, 0, 0)"]);
+    .range(["rgb(186, 196, 174)", "rgb(156, 173, 133)", "rgb(121, 150, 85)", "rgb(157, 224, 76)",  "rgb(154, 46, 173)", "rgb(65, 173, 224)", "rgb(216, 224, 67)"]);
 
 var svg = d3.select("svg");
 
