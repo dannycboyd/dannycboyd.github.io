@@ -11,7 +11,7 @@
 		<link rel="stylesheet" type="text/css" href="stylesheet.css">
         <!--<style type="text/css"></style>-->
 	</head>
-	<body>
+	 <body>
 <!--
         <select id="selector">
             <option value="Ind">Individuals</option>
@@ -20,29 +20,51 @@
 -->
 <!--		<script type="text/javascript" src="immigration.js"></script>-->
     <h1>UK Immigration</h1>
-    <div>
+
+         
+    
+         
+         
+    <div id="stack_area_div">
+        <select id="stack_area_type">
+            <option disabled selected>Pick a visa type</option>
+        </select>
+        <script type="text/javascript" src="stacks2.js"></script>
+    </div>
+
+
+         
+    <div id="ro_visa_pies" style="width:41%">
+        <div style="width:700px" >
+            
+        </div>
+        
+        <div id="pie_charts" style="width:800px"><h4 style="text-align: center">Percentages of Foreign-Born Population in the UK by Category </h4></div>
+        <script type="text/javascript" src="pie_charts.js"></script>
+        <div id="pie_charts_2" style="width:900px"><h4 style="text-align: center">Percent of Foreign Born Population Living in the UK Focused Only on Categories</h4></div>
+    
+        
+        
+    </div>
+    
+    <!--renders bar chart but under div of stacked area chart instead -->
+         
+             <div>
         <svg width="960" height="500"></svg>
             <div id="stacked_bar" style="width:800px"></div>
             <script type="text/javascript" src="stacked_bar.js"></script>
             <p>
                 *Other refers to visas that do not fit the standard classification (i.e Transit visas, Returning Resident visas).
             </p>
-    </div>
-        <div id="stack_area_div">
-            <select id="stack_area_type">
-                <option disabled selected>Pick a visa type</option>
-            </select>
-            <script type="text/javascript" src="stacks2.js"></script>
-        </div>
-    <div id="ro_visa_pies">
-        <div style="width:800px" >
-            <h4 style="text-align: center">Percentages of Foreign-Born Population in the UK by Category </h4>
-        </div>
-        <div id="pie_charts" style="width:800px"></div>
-            <script type="text/javascript" src="pie_charts.js"></script>
-        <div>
-    </div>
+    </div>    
         
+
+        
+    
+        
+   
+    
+    
 <!--Info-->            
     <div class = "note" id ="note"  style="position:relative;right:0px; font-size:16px; text-align:center;">
         <div class = 'author'>
@@ -98,22 +120,13 @@
     </div>
             
 <!--
-            <h4>Put together by Danny Boyd, Ryan Oliver, and Winston Wu</h4>
-            <ul>
-                <li>
-                    Map geometry data comes from <a href="https://data.humdata.org/dataset/burundi-admin-bounderies"> The Humanitarian Data Exchange </a>
-                </li>
-                <li>
-                    Displaced peoples data comes from the International Organization for Migration's <a href="http://www.globaldtm.info/burundi/">Global Displacement Tracking Matrix</a> via <a href="https://data.humdata.org/dataset/burundi-baseline-assessment-data-iom-dtm">HumData</a>. I've used the 25th round of surveys here.
-                </li>
-            </ul>
-            <h4>This project uses several 3rd-party libraries</h4>
+<h4>This project uses several 3rd-party libraries</h4>
             <ul>
                 <li><a href="https://www.blurbirdjs.org">Bluebird.js</a> for async promises</li>
                 <li><a href="http://d3-legend.susielu.com">D3 Legend</a> by Susie Lu for the pretty legend</li>
                 <li><a href="https://github.com/d3/d3-scale-chromatic/">d3-scale-chromatic</a> for the color interpolation. It's a standard in v5 but not v4, so it's included in a script tag at the top</li>
             </ul>
 -->
-        </div>
+        
 	</body>
 </html>
