@@ -89,7 +89,7 @@ div.info h1, div.info h2, div.info h3{
     top: 95px;
     z-index: 10;
     line-height: 140%; /*Interlineado*/
-    font-family: "Open Sans", sans-serif;
+    
     font-weight: 300;
     background: rgba(0, 0, 0, 0.8);
     color: #fff;
