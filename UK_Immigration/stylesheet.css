@@ -1,4 +1,9 @@
 /*Start Area Chart Styles*/
+div#stack_area_div {
+    position: absolute;
+    top: 10px;
+}
+
 body {
     /*background: #888;*/
     font: 12px sans-serif;
@@ -74,6 +79,12 @@ div.info h1, div.info h2, div.info h3{
 /*End Area Chart Styles*/
 
 /*Begin Pie Chart styles*/
+div#ro_visa_pies {
+    position: absolute;
+    top: 10px;
+    left: 850px;
+}
+
 .arc text {
     font: 20px sans-serif;
     text-anchor: middle;
@@ -109,6 +120,12 @@ pie{
 /*End Pie Chart styles
 
 /*Begin Stacked Bar Chart */
+div#stack_svg_div {
+    position: absolute;
+    top: 650px;
+    
+}
+
 .axis .domain {
     display: none;
 }
@@ -140,7 +157,7 @@ pie{
             }
         #note{
                 position:relative;
-               
+               top: 1300px;
                 
             }
         .note {
