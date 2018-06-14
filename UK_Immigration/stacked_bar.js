@@ -112,7 +112,7 @@ d3.csv("visa_totals_type_totals.csv", function(d, i, columns) {
         .attr('id', d => fmtdate(d.data.Quarter))
       .on('mouseover', function(d) {
         console.log(d);
-        tooltip.select('.amount').html(d[1]-d[0]);
+        tooltip.select('.amount').html("Visas: " + (d[1]-d[0]));
         tooltip.style('display', 'block');
       })
       .on('mouseout', function() {tooltip.style('display', 'none');})

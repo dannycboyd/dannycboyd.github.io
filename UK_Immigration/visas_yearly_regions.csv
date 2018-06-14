@@ -1,4 +1,4 @@
-Year,Region,total,total_no_visit,total_work,total_study_no_short,study_short,family,total_dependent,total_other
+Year,Region,Total,Visit,Work,Long Term Study,Short Term Study,Family,Dependent,Other
 2005,Total,2065424,586301,243466,191584,15834,66324,28421,1519795
 2005,Sub-Saharan Africa,312395,84761,41626,18841,305,13952,3003,234668
 2005,South East Asia,121080,44182,20515,14287,1577,4422,994,79285
