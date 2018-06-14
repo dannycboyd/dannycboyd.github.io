@@ -36,8 +36,8 @@ var xScale = d3.scaleTime()
     .range([0, w]);
 
 var areaColor = d3.scaleOrdinal()
-    .domain(["South Asia", "East Asia", "Europe (non-EU)", "Sub-Saharan Africa", "Middle East", "South East Asia", "Other"])
-    .range( ['#ff4242',    '#d13a3a',   '#f4a742',         '#5041f4',            '#c37cef',     '#f96b52',         '#aaaaaa'])
+    .domain(["UK", "South Asia", "East Asia", "Europe (non-EU)", "Sub-Saharan Africa", "Middle East", "South East Asia", "Other"])
+    .range( [ "#00247D", '#ff4242',    '#d13a3a',   '#5041f4',         '#f4a742',            '#7228a3',     '#f96b52',         '#aaaaaa'])
 
 var imgScale = d3.scaleSequential(d3.interpolateBlues) // Color scale for individuals, blue
 var stack = d3.stack()
@@ -139,7 +139,7 @@ function draw_chart() {
         .attr('class', 'visa')
         .attr('id', (d) => d.key)
         .attr('d', area)
-        .attr('fill', (d,i) => areaColor(areaColor.domain()[i]))
+        .attr('fill', (d,i) => areaColor(d.key))
         .append("title")  //Make tooltip
         .text(d => d.key);
 }
