@@ -35,9 +35,13 @@ function setYScale() {
 var xScale = d3.scaleTime()
     .range([0, w]);
 
+var areaColor = d3.scaleOrdinal()
+    .domain(["South Asia", "East Asia", "Europe (non-EU)", "Sub-Saharan Africa", "Middle East", "South East Asia", "Other"])
+    .range( ['#ff4242',    '#d13a3a',   '#f4a742',         '#5041f4',            '#c37cef',     '#f96b52',         '#aaaaaa'])
+
 var imgScale = d3.scaleSequential(d3.interpolateBlues) // Color scale for individuals, blue
 var stack = d3.stack()
-    .order(d3.stackOrderDescending);
+    .order(d3.stackOrderNone);
 
 //Define area generator
 area = d3.area()
@@ -69,13 +73,12 @@ function setType(type) { // from the D3 book, ch16
     console.log('Set the type to ' + type);
     stack.keys(regions)
         .value((d, key) => {
-//            console.log(
         return d[key][type];
-    })
+    });
     series = stack(to_stack);
 }
 
-var regions = ["Asia South", "Asia East", "Europe Other", "Africa Sub-Saharan", "Middle East", "Asia South East", "Other"];
+var regions = ["South Asia", "East Asia", "Europe (non-EU)", "Sub-Saharan Africa", "Middle East", "South East Asia", "Other"];
 var others = [];
 var types = []; // will contain the columns
 
@@ -100,27 +103,28 @@ var popLine = d3.line()
     .x(d => {console.log(d); return d})
     .y(d => {console.log(d); return d})
 
-function draw_legend(categories, color) {
+function draw_legend(color) {
+    let categories = color.domain();
     let step = h / categories.length;
     console.log(step, h, categories.length);
-    let ypos = 0;
     let v_pad = 3;
+    let ypos = h - (step + v_pad);
     categories.forEach((c, i) => {
         legend.append('rect')
             .attr('class', c)
-            .attr('x', 0)
+            .attr('x', 10)
             .attr('y', ypos)
-            .attr('width', 30)
+            .attr('width', 40)
             .attr('height', step - v_pad)
-            .attr('fill', color[i]);
+            .attr('fill', color(categories[i]));
         legend.append('text')
             .attr('class', c)
             .text(c)
-            .attr('x', 30)
+            .attr('x',50)
             .attr('y', ypos + step/2)
             .attr('text-anchor', 'start')
             .attr('fill', 'black');
-        ypos += step;
+        ypos -= step;
     });
     
 }
@@ -135,7 +139,7 @@ function draw_chart() {
         .attr('class', 'visa')
         .attr('id', (d) => d.key)
         .attr('d', area)
-        .attr('fill', (d,i) => d3.schemeCategory20[i])
+        .attr('fill', (d,i) => areaColor(areaColor.domain()[i]))
         .append("title")  //Make tooltip
         .text(d => d.key);
 }
@@ -146,7 +150,7 @@ var qMap = {
     Q4: '12'
 }
 
-var parsedate = d3.timeParse('%Y-%m'); // time and date parsing and formatting
+var parsedate = d3.timeParse('%Y'); // time and date parsing and formatting
 var fmtdate = d3.timeFormat('%b %d, %Y');
 
 // bluebirdjs promise magic
@@ -154,10 +158,8 @@ var json = Promise.promisify(d3.json); // Now they're promises instead of callba
 var csv = Promise.promisify(d3.csv);
 var fetchAsText = Promise.promisify(d3.text);
 
-var quarterly$ = csv('visas_filtered_georegions.csv', (row, i, keys) => {
-//    console.log(row, i, keys);
-    var [year, q] = row.Quarter.split('-');
-    row['date'] = parsedate(year + "-" + qMap[q]);
+var yearly$ = csv('visas_yearly_regions.csv', (row, i, keys) => {
+    row['date'] = parsedate(row.Year);
     var [_, _, ...cols] = keys;
     cols.forEach(col => {
         row[col] = +row[col];
@@ -166,25 +168,27 @@ var quarterly$ = csv('visas_filtered_georegions.csv', (row, i, keys) => {
 })
 //var pop$ = csv('britain_pop_projections.csv', popTransform)
 var series, to_stack;
-quarterly$.then((quarterly) => {
-    console.log(quarterly);
+yearly$.then((yearly) => {
+    console.log(yearly);
     let other = {};
-    var [_, _, ...cols] = quarterly.columns;
+    var [_, _, ...cols] = yearly.columns;
     types = cols;
     console.log(types);
     to_stack = [];
     let index = -1;
     let old_date = '';
-    quarterly.forEach(d => {
-//        console.log(old_date, d.Quarter)
-        if (old_date !== d.Quarter) {
+    yearly.forEach(d => {
+        console.log(d);
+        if (d.Region === 'Total') return;
+//        console.log(old_date, d.Year)
+        if (old_date !== d.Year) {
             index++;
-            old_date = d.Quarter;
+            old_date = d.Year;
             to_stack[index] = {date: d.date};
+            to_stack[index]['Other'] = {};
         }
         if (d.Region === 'Other') {
-            other = d;
-            to_stack[index]['Other'] = other;
+            to_stack[index].Other = d;
             return;
         }
         if (regions.indexOf(d.Region) < 0) {
@@ -192,12 +196,13 @@ quarterly$.then((quarterly) => {
                 others.push(d.Region);
             }
             types.forEach(col => {
-                other[col] += d[col]
+                to_stack[index].Other[col] += d[col];
+//                other[col] += d[col]
             });
             return;
         }
 //        console.log(to_stack, index);
-        to_stack[index][d.Region] = {};
+//        to_stack[index][d.Region] = d;
         to_stack[index][d.Region] = d;
         return;
     })
@@ -214,7 +219,7 @@ quarterly$.then((quarterly) => {
     series = stack(to_stack)
     console.log(series);
     
-    xScale.domain(d3.extent(quarterly, d => d.date));
+    xScale.domain(d3.extent(yearly, d => d.date));
     console.log(xScale.domain());
     
     setYScale(types[0]);
@@ -235,6 +240,6 @@ quarterly$.then((quarterly) => {
         .attr('text-anchor', 'start')
         .attr('transform', 'rotate(30)');
     
-    draw_legend(regions, d3.schemeCategory20)
+    draw_legend(areaColor)
     
 }).catch(error => {console.error(error)});
