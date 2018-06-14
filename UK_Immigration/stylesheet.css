@@ -112,8 +112,8 @@ div#ro_visa_pies {
     line-height: 140%; /*Interlineado*/
     
     font-weight: 300;
-    background: rgba(0, 0, 0, 0.8);
-    color: #fff;
+    background: rgba(210, 213, 219, 0.95);
+    color: #000;
     border-radius: 2px;
 }
 
