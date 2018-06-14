@@ -4,17 +4,17 @@ var Promise;
 /* These are the regions we will draw, everything else gets summed to 'other' during the dataset construction, 
 */
 //Width and height
-var w = 750;
-var h = 450;
+var w = 600;
+var h = 520;
 
-var margin = {left: 20, right: 200, top: 30, bottom: 50} // margin/positioning objects
-var shift = {left: 600, top: 550}
+var margin = {left: 40, right: 210, top: 30, bottom: 50} // margin/positioning objects
+//var shift = {left: 600, top: 550}
 
 //Create SVG element
 var svg_area = d3.select("#stack_area_div") // set up the canvas
     .append("svg")
     .attr("width", w + margin.left + margin.right)
-.attr("height", h + margin.top + margin.bottom);
+    .attr("height", h + margin.top + margin.bottom);
 
 var stacked_area = svg_area.append('g') // group for the map
     .attr('id', 'stacked-area')
@@ -36,7 +36,7 @@ var xScale = d3.scaleTime()
     .range([0, w]);
 
 var areaColor = d3.scaleOrdinal()
-    .domain(["UK", "South Asia", "East Asia", "Europe (non-EU)", "Sub-Saharan Africa", "Middle East", "South East Asia", "Other"])
+    .domain(["UK",       "South Asia", "East Asia", "Europe (non-EU)", "Sub-Saharan Africa", "Middle East", "South East Asia", "Other"])
     .range( [ "#00247D", '#ff4242',    '#d13a3a',   '#5041f4',         '#f4a742',            '#7228a3',     '#f96b52',         '#aaaaaa'])
 
 var imgScale = d3.scaleSequential(d3.interpolateBlues) // Color scale for individuals, blue
@@ -45,20 +45,20 @@ var stack = d3.stack()
 
 //Define area generator
 area = d3.area()
-            .x((d) => xScale(d.data.date))
-            .y0((d) => yScale(d[0]))
-            .y1((d) => yScale(d[1]));
+    .x((d) => xScale(d.data.date))
+    .y0((d) => yScale(d[0]))
+    .y1((d) => yScale(d[1]));
 
 //Define axes
 xAxis = d3.axisBottom()
-           .scale(xScale)
-           .ticks(10)
-           .tickFormat(fmtdate);
+   .scale(xScale)
+   .ticks(10)
+   .tickFormat(fmtdate);
 
 //Define Y axis
 yAxis = d3.axisRight()
-           .scale(yScale)
-           .ticks(5);
+    .scale(yScale)
+    .ticks(5);
 
 let stacks_x = stacked_area.append('g')
     .attr('transform', () => `translate(0, ${h})`)
@@ -66,7 +66,12 @@ let stacks_x = stacked_area.append('g')
 
 let stacks_y = stacked_area.append('g')
     .attr('transform', () => `translate(${w}, 0)`)
-    .attr('class', 'stacks y-axis')
+    .attr('class', 'stacks y-axis');
+stacks_y.append('text')
+    .attr('transform', `translate(0, 10)`)
+    .text('Total visas granted')
+    .attr('text-anchor', 'end')
+    .attr('fill','black');
 
 // this function just picks which column to draw for the area chart
 function setType(type) { // from the D3 book, ch16
