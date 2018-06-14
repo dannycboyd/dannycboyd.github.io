@@ -94,7 +94,7 @@ div#ro_visa_pies {
 }
 
 .arc path {
-    stroke: #fff;
+    stroke: none;
 }
             
 .tooltip {
