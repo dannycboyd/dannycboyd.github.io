@@ -91,7 +91,7 @@ d3.csv("visa_totals_type_totals.csv", function(d, i, columns) {
   data.sort(function(a, b) { return b.total - a.total; });
     
     var stacked = stack.keys(keys)(data);
-  x.domain(data.map(function(d) { return d.Quarter; }));
+  x.domain(data.map(function(d) { return d.Quarter; }).sort());
     let barw = x.bandwidth();
     console.log(x.domain(), barw);
   y.domain([0, d3.max(stacked, function(d) {console.log(d); return +d[0][1]; })]).nice();
