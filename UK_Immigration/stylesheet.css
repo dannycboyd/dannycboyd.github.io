@@ -80,7 +80,7 @@ div.info h1, div.info h2, div.info h3{
 
 /*Begin Pie Chart styles*/
 div#ro_visa_pies {
-    position: absolute;
+    position: relative;
     top: 10px;
     left: 850px;
 }
@@ -121,8 +121,8 @@ pie{
 
 /*Begin Stacked Bar Chart */
 div#stack_svg_div {
-    position: absolute;
-    top: 650px;
+    position: relative;
+    top: 10px;
     
 }
 
@@ -156,8 +156,8 @@ div#stack_svg_div {
                 position:absolute;
             }
         #note{
-                position:relative;
-               top: 1300px;
+            position:relative;
+            top: 10px;
                 
             }
         .note {
