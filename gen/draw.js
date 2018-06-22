@@ -33,7 +33,7 @@ function resizeCanvas() {
 window.addEventListener('resize', resizeCanvas, false);
 resizeCanvas();
 
-canvas.addEventListener('mousemove', e => {
+window.addEventListener('mousemove', e => {
     mouse.x = e.layerX;
     mouse.y = e.layerY;
     drawStuff();
