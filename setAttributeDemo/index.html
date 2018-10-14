@@ -1,0 +1,28 @@
+<html>
+	<head>
+		<style>
+			.red { color:red }
+		</style>
+	</head>
+	<body>
+		<button onclick="toggleClass()">Click me</button>
+		<p id="text_whatever">This is some text or something</p>
+	</body>
+	<script>
+		var paragraphNode = document.querySelector('#text_whatever');
+		var class_text = '';
+		
+		function toggleClass() {
+			if(class_text.length) {
+				class_text = '';
+			} else {
+				class_text = 'red';
+			}
+			if(paragraphNode !== null) {
+				paragraphNode.setAttribute('class', class_text);
+			}
+		}
+		
+		console.log('all good here');
+	</script>
+</html>
