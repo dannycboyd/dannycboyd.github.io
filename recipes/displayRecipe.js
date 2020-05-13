@@ -12,7 +12,16 @@ let options = {
     steps
   },
   recipe: {},
-  fns: {},
+  fns: {
+    ingredients: {
+      add: addIngredient,
+      change: changeIngredient
+    },
+    steps: {
+      add: addStep,
+      change: changeStep
+    }
+  },
 }
 
 function ingredientString(i) {
@@ -47,16 +56,20 @@ function changeStep(element, i) {
   element.innerText = i.description;
 }
 
-function displaySection(options) {
-  const { section, items, fn } = options;
+function displaySection(sectionName) {
+  const section = options.sections[sectionName];
+  const items = options.recipe[sectionName];
+  const add = options.fns[sectionName].add;
+  const change = options.fns[sectionName].change;
+
   const existing = section.children.length;
   const num = items.length;
 
   for (let i = 0; i < num; i++) {
     if (i < existing) {
-      fn.change(section.children[i], items[i]);
+      change(section.children[i], items[i]);
     } else {
-      fn.add(items[i]);
+      add(items[i]);
     }
   }
 
@@ -65,50 +78,15 @@ function displaySection(options) {
   }
 }
 
- const display_functions = {
-   ingredients: {
-     add: addIngredient,
-     change: changeIngredient
-   },
-   steps: {
-     add: addStep,
-     change: changeStep
-   }
- }
-
 function displayRecipe(data) {
+  options.recipe = data;
   title.innerText = data.name;
 
   if (data.ingredients && data.ingredients.length > 0) {
-    const options = {
-      section: ingredients,
-      items: data.ingredients,
-      fn: display_functions.ingredients
-    }
-    displaySection(options);
+    displaySection('ingredients');
   }
 
   if (data.steps && data.steps.length > 0) {
-    const options = {
-      section: steps,
-      items: data.steps,
-      fn: display_functions.steps
-    }
-    displaySection(options);
+    displaySection('steps');
   }
-
-  // const existing_ingredients = ingredients.children.length; // existing elements
-  // const num_ingredients = data.ingredients.length;
-
-  // for (let i = 0; i < num_ingredients; i++) {
-  //   if (i < existing_ingredients) {
-  //     changeIngredient(ingredients.children[i], data.ingredients[i]);
-  //   } else {
-  //     addIngredient(data.ingredients[i]);
-  //   }
-  // }
-
-  // while(ingredients.children.length > num_ingredients) {
-  //   ingredients.removeChild(ingredients.lastChild);
-  // }
 }
