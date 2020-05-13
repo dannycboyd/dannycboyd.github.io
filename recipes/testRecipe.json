@@ -1,0 +1,13 @@
+{
+  "name": "Test Recipe",
+  "ingredients": [
+    {
+      "name": "Flour",
+      "amount": "3",
+      "units": "cups"
+    }
+  ],
+  "steps": [
+    { "description": "Rub your hands in the flour and laugh like a baby" }
+  ]
+}
