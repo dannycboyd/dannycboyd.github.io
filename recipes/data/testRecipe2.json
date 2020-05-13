@@ -2,9 +2,14 @@
   "name": "Test Recipe 2",
   "ingredients": [
     {
-      "name": "Flour",
+      "name": "Chocolate Chips",
       "amount": "3",
       "units": "cups"
+    },
+    {
+      "name": "Butter",
+      "amount": "half",
+      "units": "stick"
     }
   ],
   "steps": [

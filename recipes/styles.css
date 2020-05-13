@@ -8,6 +8,13 @@
   left: 0;
   width: var(--nav-size);
   height: 100%;
+}
+
+.content_nav .active {
+  background-color: aqua;
+}
+
+.content_nav h4 {
   text-align: center;
 }
 

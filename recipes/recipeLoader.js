@@ -2,6 +2,7 @@
 // const baseUrl = 'https://dannycboyd.github.io/recipes/testRecipes/';
 const baseUrl = './';
 let nav = document.querySelector('#recipeList');
+let prev;
 
 function addLink(listElement, data) {
   let li = document.createElement('li');
@@ -24,6 +25,11 @@ function clickHandler(event) {
         displayRecipe(data);
       });
   }
+  event.target.classList.add('active');
+  if (prev) {
+    prev.classList.remove('active');
+  }
+  prev = event.target;
 }
 
 async function getList() {
