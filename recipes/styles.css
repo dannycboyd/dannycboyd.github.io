@@ -1,0 +1,19 @@
+:root {
+  --nav-size: 150px;
+}
+
+.content_nav {
+  display: block;
+  position: absolute;
+  left: 0;
+  width: var(--nav-size);
+  height: 100%;
+  text-align: center;
+}
+
+.content_main {
+  display: block;
+  position: absolute;
+  left: var(--nav-size);
+  height: 100%;
+}
