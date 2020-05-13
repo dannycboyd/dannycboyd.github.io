@@ -34,7 +34,7 @@ function displayRecipe(data) {
   const num_ingredients = data.ingredients.length;
 
   for (let i = 0; i < num_ingredients; i++) {
-    if (i <= existing_ingredients) {
+    if (i < existing_ingredients) {
       changeIngredient(ingredients.children[i], data.ingredients[i]);
     } else {
       addIngredient(data.ingredients[i]);
