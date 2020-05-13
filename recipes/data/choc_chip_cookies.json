@@ -1,0 +1,63 @@
+{
+  "name": "Chocolate Chip Cookies",
+  "Author": "Michelle Boyd",
+  "ingredients": [
+    {
+      "name": "Flour",
+      "amount": "3",
+      "units": "Cups"
+    },
+    {
+      "name": "Baking Soda",
+      "amount": "2",
+      "units": "teaspoons"
+    },
+    {
+      "name": "Salt",
+      "amount": "1",
+      "units": "teaspoon"
+    },
+    {
+      "name": "Brown Sugar",
+      "amount": "1",
+      "units": "Cup"
+    },
+    {
+      "name": "Sugar",
+      "amount": "1/2",
+      "units": "Cup"
+    },
+    {
+      "name": "Butter",
+      "amount": "3/4",
+      "units": "Cup",
+      "alt": "1.5 sticks"
+    },
+    {
+      "name": "Eggs",
+      "amount": "2",
+      "units": ""
+    },
+    {
+      "name": "Vanilla",
+      "amount": "1",
+      "units": "teaspoon"
+    },
+    {
+      "name": "Chocolate Chips",
+      "amount": "12",
+      "units": "Ounces",
+      "alt": "1 package"
+    }
+  ],
+  "steps": [
+    { "description": "Preheat oven to 375" },
+    { "description": "Mix dry ingredients" },
+    { "description": "Warm butter, cream butter and sugars" },
+    { "description": "Add eggs and vanilla" },
+    { "description": "Mix in the dry ingredients in 3 parts" },
+    { "description": "Add chocolate chips and mix" },
+    { "description": "Put on cookie sheet and bake ~7 minutes" },
+    { "description": "Alternatively, fill other baking dish and bake for ~18 minutes" }
+  ]
+}
