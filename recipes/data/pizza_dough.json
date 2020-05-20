@@ -1,8 +1,8 @@
 {
   "name": "Pizza Dough",
   "serving_size": "Makes dough for 3 pan sized pizzas",
-  "prep_time": "30 minutes",
-  "cook_time": "30 minutes",
+  "prep_time": { "minutes": 30 },
+  "cook_time": { "minutes": 30 },
   "ingredients": [
     { "name": "Flour", "amount": "3.5-4", "units": "Cups" },
     { "name": "Salt", "amount": "1", "units": "Teaspoon" },
