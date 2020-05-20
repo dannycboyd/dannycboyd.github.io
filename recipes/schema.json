@@ -1,0 +1,35 @@
+{
+  "schema": {
+    "name": { "type": "string" },
+    "serving_size": { "type": "string" },
+    "prep_time": { "$ref": "definitions/time" },
+    "cook_time": { "$ref": "definitions/time" },
+    "ingredients": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "amount": { "type": "string" },
+          "units": { "type": "string" }
+        }
+      }
+    },
+    "steps": {
+      "type": "array", "items": {
+        "type": "object",
+        "properties": {
+          "descriptiong": { "type": "string" }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "time": {
+      "type": "object", "properties": {
+        "minutes": { "type": "string" },
+        "hours": { "type": "string" }
+      }
+    }
+  }
+}

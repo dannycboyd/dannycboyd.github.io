@@ -4,12 +4,16 @@ const baseUrl = './';
 let nav = document.querySelector('#recipeList');
 let prev;
 
+/*
+Fetch the recipe list and build the nav.
+*/
+
 function addLink(listElement, data) {
-  let li = document.createElement('li');
-  li.setAttribute('path', data.path);
-  li.innerHTML = data.name;
+  let div = document.createElement('div');
+  div.setAttribute('path', data.path);
+  div.innerHTML = data.name;
   try {
-    listElement.appendChild(li);
+    listElement.appendChild(div);
   } catch (e) {
     console.error(e);
   }

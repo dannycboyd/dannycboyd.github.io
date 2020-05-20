@@ -1,0 +1,27 @@
+{
+  "name": "Pumpkin Bread",
+  "serving_size": "2 Loaves",
+  "prep_time": { "minutes": 20 },
+  "cook_time": { "minutes": 65 },
+  "ingredients": [
+    { "name": "Flour", "amount": "2", "units": "cups" },
+    { "name": "Salt", "amount": "1/2", "units": "teaspoon" },
+    { "name": "Baking Soda", "amount": "1", "units": "teaspoon" },
+    { "name": "Baking Powder", "amount": "1/2", "units": "teaspoon" },
+    { "name": "Ground Cloves", "amount": "1", "units": "teaspoon" },
+    { "name": "Ground Cinnamon", "amount": "1", "units": "teaspoon" },
+    { "name": "Ground Nutmeg", "amount": "1", "units": "teaspoon" },
+    { "name": "Butter", "amount": "3/4", "units": "cup" },
+    { "name": "Sugar", "amount": "2", "units": "cups" },
+    { "name": "Eggs", "amount": "2", "units": "cups" },
+    { "name": "Pumpkin Purée", "amount": "15", "units": "ounces" }
+  ],
+  "steps": [
+    { "description": "Preheat the oven to 325°F and set an oven rack in the middle position. Generously grease two 8 x 4-inch loaf pans with butter and dust with flour (alternatively, use a baking spray with flour in it, such as Pam with Flour or Baker's Joy)." },
+    { "description": "In a medium bowl, combine the flour, salt, baking soda, baking powder, cloves, cinnamon, and nutmeg. Whisk until well combined; set aside." },
+    { "description": "In a large bowl of an electric mixer, beat the butter and sugar on medium speed until just blended. Add the eggs one at a time, beating well after each addition. Continue beating until very light and fluffy, a few minutes. Beat in the pumpkin. The mixture might look grainy and curdled at this point -- that's okay." },
+    { "description": "Add the flour mixture and mix on low speed until combined." },
+    { "description": "Turn the batter into the prepared pans, dividing evenly, and bake for 65 – 75 minutes, or until a cake tester inserted into the center comes out clean. Let the loaves cool in the pans for about 10 minutes, then turn out onto a wire rack to cool completely." },
+    { "description": "Fresh out of the oven,the loaves have a deliciously crisp crust. If they last beyond a day, you can toast individual slices to get the same fresh-baked effect." }
+  ]
+}

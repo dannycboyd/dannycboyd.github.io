@@ -1,0 +1,25 @@
+{
+  "schema": {
+    "name": "Pizza Dough",
+    "serving_size": "Makes dough for 3 pan sized pizzas",
+    "prep_time": "30 minutes",
+    "cook_time": "30 minutes",
+    "ingredients": [
+      { "name": "Flour", "amount": "3.5-4", "units": "Cups" },
+      { "name": "Salt", "amount": "1", "units": "Teaspoon" },
+      { "name": "Water (110-115° F)", "amount": "1", "units": "Cup" },
+      { "name": "Sugar", "amount": "2", "units": "Teaspoons" },
+      { "name": "Active Dry Yeast", "amount": ">1", "units": "Tablespoon" },
+      { "name": "Olive Oil", "amount": "2", "units": "Tablespoon," }
+    ],
+    "steps": [
+      { "description": "Heat the water. If you don't have a thermometer, 110-115 is the temp for a really hot shower. I think our water heater is set to 108." },
+      { "description": "Stir the sugar and the yeast in the warm water. The yeast will proof.\nWhile the yeast is working, measure the flour and salt into a glass bowl. (I think metal is bad for yeast?)" },
+      { "description": "Add the proofed yeast and the olive oil to the flour and salt. Stir. It usually gets to the point where stirring is hard, or maybe I get bored." },
+      { "description": "That's when I dump it out onto the clean, floured counter and start to knead. It should get kind of elastic-y. You will need to add more flour to keep it from sticking to everything. Sometimes the dough would feel very hard and I would realize that I forgot to put in the oil. You can knead it in." },
+      { "description": "I always buttered the bowl and put the dough back in. A recipe online said that you can use olive oil on the bowl instead. When you put the dough in, rub the dough on the buttered/oiled surface of the bowl and flip the dough over. The oil will keep it from getting crusty while it is rising." },
+      { "description": "I always buttered the bowl and put the dough back in. A recipe online said that you can use olive oil on the bowl instead. When you put the dough in, rub the dough on the buttered/oiled surface of the bowl and flip the dough over. The oil will keep it from getting crusty while it is rising." },
+      { "description": "When you are ready to make pizza, punch the dough down. Take it out of the bowl and put in on the clean, floured counter. Roll it out. If you don't have a roller, you can try using a glass. Or you can get all fancy and let hold the dough so gravity will flatten it out. We usually made a 13-14 inch circle, because that was the size of the pizza stone and the parchment paper." }
+    ]
+  }
+}
