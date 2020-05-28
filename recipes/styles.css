@@ -44,4 +44,18 @@
   position: absolute;
   left: var(--nav-size);
   height: 100%;
+  padding-right: 1rem;
+  margin-right: var(--nav-size);
+}
+
+.content_main .title {
+  text-align: center;
+}
+
+.content_main .section {
+  border-top: 1px solid;
+}
+
+.content_main .section:last-child {
+ border-bottom: 1px solid;
 }
