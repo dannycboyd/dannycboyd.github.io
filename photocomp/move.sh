@@ -1,0 +1,1 @@
+cp ./src/* /var/www/html
