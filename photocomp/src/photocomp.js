@@ -60,21 +60,21 @@ function drawImages() {
 let AddImage = d3.select('input#addImage')
   .on('change', (event) => {
     let f = event.target.files[0];
-    if (f.type === 'image/png') {
-      let fr = new FileReader();
+    // if (f.type.test('image')) {
+    let fr = new FileReader();
 
-      fr.onload = function (ev2) {
-        // console.log(ev2);
-        images.push({
-          x: 0,
-          y: 0,
-          data: fr.result,
-          id: fr.result.hashCode()
-        });
-        drawImages();
-      }
-      fr.readAsDataURL(f);
-    };
+    fr.onload = function (ev2) {
+      // console.log(ev2);
+      images.push({
+        x: 0,
+        y: 0,
+        data: fr.result,
+        id: fr.result.hashCode()
+      });
+      drawImages();
+    }
+    fr.readAsDataURL(f);
+    // };
 
   });
 

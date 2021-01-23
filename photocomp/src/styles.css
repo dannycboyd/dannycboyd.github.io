@@ -9,6 +9,10 @@ div.header {
   position: absolute;
   left: 10px;
   top: 100px;
+  background: #DDD;
+  border: solid #040404 1px;
+  border-radius: 3px;
+  padding: 1rem;
 }
 
 svg {
