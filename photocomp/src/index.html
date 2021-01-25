@@ -12,11 +12,27 @@
       Click and drag
     </h1>
     <div class="buttons">
-      <button id="undo">Undo line</button>
-      <input id="addImage" type="file">
+      <div class="btn_group">
+        <button id="undo">Undo line</button>
+        <button id="pointer">Pointer</button>
+        <button id="pen">Pen</button>
+        <input id="addImage" type="file">
+        <button id="save">Save</button>
+      </div>
+      <div class="btn_group">
+        <select id="color">
+          <option id="black" value="black">black</option>
+          <option id="white" value="white">white</option>
+          <option id="red" value="red">red</option>
+          <option id="blue" value="blue">blue</option>
+        </select>
+
+        <input type="range" min="1" max="50" value="1" class="slider" id="strokeWidth">
+      </div>
     </div>
   </div>
   <svg></svg>
+  <canvas></canvas>
   <script src="./photocomp.js"></script>
 </body>
 
