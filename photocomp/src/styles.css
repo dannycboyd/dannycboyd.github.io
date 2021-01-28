@@ -29,3 +29,28 @@ canvas {
 image.active {
   border: solid black 2px;
 }
+
+.svg_icon {
+  border: none;
+  background-size: cover;
+  height: 1.6rem;
+  width: 1.6rem;
+}
+
+.svg_icon#pen {
+  background-image: url(./pen_01.svg);
+}
+.svg_icon#pointer {
+  background-image: url(./pointer.svg);
+}
+.svg_icon#undo {
+  background-image: url(./undo.svg);
+}
+
+.svg_icon#save {
+  background-image: url(./save.svg);
+}
+
+.svg_icon#addImage {
+  background-image: url(./upload.svg);
+}

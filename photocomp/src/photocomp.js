@@ -60,6 +60,9 @@ function imagesDraggable() {
     .call(dragHandler);
 
   svgNode.on('mousedown', null);
+  activeGroup.attr('class', null);
+  activeGroup = null;
+  currentLineOffset = [];
 }
 
 d3.select('button#pen').on('click', imagesStatic);
@@ -143,17 +146,28 @@ function dist(x1, y1, x2, y2) {
   return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
 }
 
-function svgPaint(event) {
-  let node = d3.select(this)
+let activeGroup = null;
+let currentLineOffset = null;
+function svgPaint(event) { // svg mousedown fn
+  if (!activeGroup) {
+    currentLineOffset = [event.x, event.y];
+    activeGroup = svgNode.append('g')
+      .attr('class', 'active')
+      .attr('transform', `translate(${event.x}, ${event.y})`);
+
+  }
+
+  d3.select(this)
     .on('mousemove', mousemove)
-    .on('mouseup', mouseup)
+    .on('mouseup', mouseup);
+  let node = activeGroup
     .append('path')
     .attr('class', 'active')
     .attr('stroke', strokeColor)
     .attr('stroke-width', strokeWidth)
     .attr('fill', 'none');
   pathNodes.push(node);
-  pathData.push([event.layerX, event.layerY]);
+  pathData.push([event.layerX - currentLineOffset[0], event.layerY - currentLineOffset[1]]);
 
 
   function mousemove(event) {
@@ -163,7 +177,8 @@ function svgPaint(event) {
     let distance = dist(event.layerX, event.layerY, lastpos[0], lastpos[1]);
     // console.log(distance);
     if (distance > 5) {
-      pathData.push([event.layerX, event.layerY]);
+      pathData.push([event.layerX - currentLineOffset[0], event.layerY - currentLineOffset[1]]);
+
       // console.log(pathData.length);
       d3.select('path.active')
         .attr('d', line(pathData));
@@ -174,7 +189,7 @@ function svgPaint(event) {
     // console.log('mouseup');
     svgNode.on('mousemove', null).on('mouseup', null);
     d3.select('path.active').attr('d', line(pathData)).attr('class', null);
-
+    // currentLineOffset = [];
     pathData = [];
   }
 }
